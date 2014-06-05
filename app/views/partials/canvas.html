@@ -1,24 +1,23 @@
-<div ng-include="'partials/navbar'"></div>
+<div class="noItems" ng-hide="items.$getIndex().length">Have no Items</div>
+<ul>
+  <li ng-repeat="(id, item) in items">
+    <span>
+      <input type="text" ng-model="item.title" ng-blur="update(id)"/>
+    </span>
+    <span>
+      <input type="text" ng-model="item.dummy" ng-blur="update(id)"/>
+    </span>
+    <span>
+      <a ng-click="del(id)">del</a>
+    </span>
+  </li>
+</ul>
 
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    <img src="images/yeoman.png" alt="I'm Yeoman"><br>
-    Always a pleasure scaffolding your apps.
-  </p>
-  <p><a class="btn btn-lg btn-success" ng-href="#">Splendid!</a></p>
-</div>
-
-<div class="row marketing">
-  <div ng-repeat="thing in awesomeThings">
-      <h4>{{thing.name}}</h4>
-      <p>{{thing.info}}</p>
-  </div>
-</div>
-
-<div class="footer">
-  <p>♥ from the Yeoman team</p>
-</div>
+<form novalidate ng-submit="create()">
+  <input type="text" ng-model="newItem.title" placeholder="title"/>
+  <input type="text" ng-model="newItem.dummy" placeholder="dummy"/>
+  <button type="submit">create</button>
+</form>
 
 <section class="canvas">
   <div class="wrapper">

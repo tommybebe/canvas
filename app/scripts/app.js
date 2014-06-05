@@ -1,11 +1,12 @@
 'use strict';
-
 angular.module('canvasApp', [
   'ngCookies',
   'ngResource',
   'ngSanitize',
-  'ngRoute'
+  'ngRoute',
+  'firebase'
 ])
+  .constant('FIREBASE_URI', 'https://burning-fire-8122.firebaseio.com')
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
@@ -22,3 +23,4 @@ angular.module('canvasApp', [
       
     $locationProvider.html5Mode(true);
   });
+

@@ -9,13 +9,22 @@ module.exports = function(config) {
     autoWatch: true,
 
     // base path, that will be used to resolve files and exclude
-    basePath: '',
+    basePath: '../',
 
     // testing framework to use (jasmine/mocha/qunit/...)
     frameworks: ['jasmine'],
 
     // list of files / patterns to load in the browser
-    files: [],
+    files: [
+      'app/bower_components/angular/angular.js',
+      'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/angular-cookies/angular-cookies.js',
+      'app/bower_components/angular-resource/angular-resource.js',
+      'app/bower_components/angular-sanitize/angular-sanitize.js',
+      'app/bower_components/angular-route/angular-route.js',
+      'app/scripts/**/*.js',
+      'test/client/**/*.js'
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -33,17 +42,19 @@ module.exports = function(config) {
     // - IE (only Windows)
     browsers: [
       'PhantomJS'
+      // 'Chrome'
     ],
 
     // Which plugins to enable
     plugins: [
       'karma-phantomjs-launcher',
+      // 'karma-chrome-launcher',
       'karma-jasmine'
     ],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit
-    singleRun: false,
+    singleRun: true,
 
     colors: true,
 

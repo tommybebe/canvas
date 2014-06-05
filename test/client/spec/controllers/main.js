@@ -6,7 +6,9 @@ describe('Controller: MainCtrl', function () {
   beforeEach(module('canvasApp'));
 
   var MainCtrl,
+    CanvasCtrl,
     scope,
+    _scope,
     $httpBackend;
 
   // Initialize the controller and a mock scope
@@ -14,15 +16,22 @@ describe('Controller: MainCtrl', function () {
     $httpBackend = _$httpBackend_;
     $httpBackend.expectGET('/api/awesomeThings')
       .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
+    $httpBackend.expectGET('/api/canvas/undefined')
+      .respond(['HTML5 Boilerplate', 'AngularJS', 'Karma', 'Express']);
     scope = $rootScope.$new();
+    _scope = $rootScope.$new();
     MainCtrl = $controller('MainCtrl', {
       $scope: scope
+    });
+    CanvasCtrl = $controller('CanvasCtrl', {
+      $scope: _scope
     });
   }));
 
   it('should attach a list of awesomeThings to the scope', function () {
     expect(scope.awesomeThings).toBeUndefined();
     $httpBackend.flush();
-    expect(scope.awesomeThings.length).toBe(1);
+    expect(scope.awesomeThings.length).toBe(4);
+    dump(_scope);
   });
 });
