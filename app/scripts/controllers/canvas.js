@@ -54,7 +54,6 @@ angular.module('canvasApp')
     $scope.newItem = { title: 'Empty title', dummy: 2000 };
     $scope.CurrentItem = null;
     $scope.canvas = fire.initialize($routeParams.id);
-
     $scope.create = function(){
       fire.create(angular.copy($scope.newItem));
       $scope.newItem = { title: 'Empty title', dummy: 2000 };
