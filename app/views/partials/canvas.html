@@ -1,11 +1,147 @@
+<div ng-include="'partials/navbar'"></div>
+
+<section class="canvas">
+  <div class="wrapper">
+    <h3 class="title">{{canvas.title}}</h3>
+    <div class="pure-g">
+      <div class="pure-u-1-5">
+        <div class="area-wrapper">
+          <div class="area">
+            <h4 class="title">Problem</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'problem'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+              <form novalidate ng-submit="create('problem')">
+                <input type="text" ng-model="newItem.content" placeholder="Type some texts."/>
+                <button type="submit">create</button>
+              </form>
+            </ul>
+          </div>
+          <div class="area">
+            <h4 class="title">Existing Alternatives</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'existingAlternatives'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1-5">
+        <div class="area-wrapper">
+          <div class="area">
+            <h4 class="title">Solution</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'solution'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+          <div class="area">
+            <h4 class="title">Key Metrics</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'keyMetrics'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1-5">
+        <div class="area-wrapper">
+          <div class="area">
+            <h4 class="title">Unique Value Proposition</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'uniqueValueProposition'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+          <div class="area">
+            <h4 class="title">High Level Concept</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'highLevelConcept'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1-5">
+        <div class="area-wrapper">
+          <div class="area">
+            <h4 class="title">Unfair Advantage</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'unfairAdvantage'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+          <div class="area">
+            <h4 class="title">Channels</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'channels'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="pure-u-1-5">
+        <div class="area-wrapper">
+          <div class="area">
+            <h4 class="title">Customer Segments</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'customerSegments'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+          <div class="area">
+            <h4 class="title">Early Adopters</h4>
+            <ul class="contents">
+              <li class="item" ng-repeat="(id, item) in items | canvasSort:'earlyAdopters'">
+                <p ng-click="toggle(this, $event)">{{item.content}}</p>
+                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
+                <button ng-click="del(id)">Delete</button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr/>
+
 <div class="noItems" ng-hide="items.$getIndex().length">Have no Items</div>
 <ul>
   <li ng-repeat="(id, item) in items">
     <span>
-      <input type="text" ng-model="item.title" ng-blur="update(id)"/>
+      <input type="text" ng-model="item.content" ng-blur="update(id)"/>
     </span>
     <span>
-      <input type="text" ng-model="item.dummy" ng-blur="update(id)"/>
+      <input type="text" ng-model="item.area" ng-blur="update(id)"/>
     </span>
     <span>
       <a ng-click="del(id)">del</a>
@@ -14,97 +150,7 @@
 </ul>
 
 <form novalidate ng-submit="create()">
-  <input type="text" ng-model="newItem.title" placeholder="title"/>
-  <input type="text" ng-model="newItem.dummy" placeholder="dummy"/>
+  <input type="text" ng-model="newItem.content" placeholder="title"/>
+  <input type="text" ng-model="newItem.area" placeholder="dummy"/>
   <button type="submit">create</button>
 </form>
-
-<section class="canvas">
-  <div class="wrapper">
-    <h3 class="title">{{canvas.title}}</h3>
-    <div class="pure-g">
-      <div class="pure-u-1-5">
-        <div class="item-wrapper">
-          <div class="item">
-            <h4 class="title">Problem</h4>
-            <ul class="contents">
-              <li ng-repeat="(id, item) in canvas.items | canvasSort:'problem'">
-                <input type="text" ng-model="item.content" placeholder="Type some texts."/>
-              </li>
-            </ul>
-          </div>
-          <div class="item">
-            <h4 class="title">Existing Alternatives</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="pure-u-1-5">
-        <div class="item-wrapper">
-          <div class="item">
-            <h4 class="title">Solution</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-          <div class="item">
-            <h4 class="title">Key Metrics</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="pure-u-1-5">
-        <div class="item-wrapper">
-          <div class="item">
-            <h4 class="title">Unique Value Proposition</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-          <div class="item">
-            <h4 class="title">High Level Concept</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="pure-u-1-5">
-        <div class="item-wrapper">
-          <div class="item">
-            <h4 class="title">Unfair Advantage</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-          <div class="item">
-            <h4 class="title">Channels</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="pure-u-1-5">
-        <div class="item-wrapper">
-          <div class="item">
-            <h4 class="title">Customer Segments</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-          <div class="item">
-            <h4 class="title">Early Adopters</h4>
-            <ul class="contents">
-              <li ng-repeat="item in canvas.items">{{}}</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>

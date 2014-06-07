@@ -1,12 +1,14 @@
 'use strict';
 angular.module('canvasApp')
-  .factory('fire', ['$firebase', 'FIREBASE_URI', '$location', function($firebase, FIREBASE_URI, $location){
+  .factory('fire', ['$firebase', 'FIREBASE_URI', function($firebase, FIREBASE_URI){
     var ref = new Firebase(FIREBASE_URI + '/canvas'),
       conn = $firebase(ref),
+      canvas = {},
       items = {};
 
     var initialize = function(id){
-      items = conn.$child(id);
+      canvas = conn.$child(id);
+      items = canvas.$child('items');
       return items;
     },
     create = function(item){
@@ -35,10 +37,10 @@ angular.module('canvasApp')
   .filter('canvasSort', function(){
     return function(input, area){
       var filterd = {};
-      if(!input) return;
-      Object.keys(input).forEach(function(key, i){
+      if(!input) { return; }
+      Object.keys(input).forEach(function(key){
         var item = input[key];
-        if(item.area == area){
+        if(item.area === area){
           filterd[key] = item;
         }
       });
@@ -48,18 +50,19 @@ angular.module('canvasApp')
 
 angular.module('canvasApp')
   .controller('CanvasCtrl', ['$scope', '$routeParams', 'fire', function ($scope, $routeParams, fire) {
-    // $http.get('/api/canvas/'+$routeParams.id).success(function(canvas) {
-    //   $scope.canvas = canvas;
-    // });
-    $scope.newItem = { title: 'Empty title', dummy: 2000 };
-    $scope.CurrentItem = null;
-    $scope.canvas = fire.initialize($routeParams.id);
-    $scope.create = function(){
-      fire.create(angular.copy($scope.newItem));
-      $scope.newItem = { title: 'Empty title', dummy: 2000 };
+    $scope.newItem = { content: 'Empty content' };
+    $scope.items = fire.initialize($routeParams.id);
+    $scope.create = function(area){
+      fire.create(_.assign(angular.copy($scope.newItem), {
+        area: area,
+        createAt: new Date(),
+        updateAt: new Date()
+      }));
+      $scope.newItem = { content: 'Empty content' };
     };
-    $scope.update = function(id){
+    $scope.update = function(id, $event){
       fire.update(id);
+      $scope.toggle(id, $event);
     };
     $scope.del = function(id){
       fire.del(id);
@@ -67,6 +70,16 @@ angular.module('canvasApp')
     $scope.test = function(){
       console.log($scope.items);
     };
-
+    $scope.toggle = function(obj, $event){
+      var clickedDom = $($event.target),
+        hidedDom;
+      if(clickedDom[0].tagName.toLowerCase() === 'p'){
+        hidedDom = clickedDom.next();
+      } else {
+        hidedDom = clickedDom.prev();
+      }
+      clickedDom.hide();
+      hidedDom.show();
+    };
   }]);
 
