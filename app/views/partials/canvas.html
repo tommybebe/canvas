@@ -9,25 +9,13 @@
           <div class="area">
             <h4 class="title">Problem</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'problem'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
-              <form novalidate ng-submit="create('problem')">
-                <input type="text" ng-model="newItem.content" placeholder="Type some texts."/>
-                <button type="submit">create</button>
-              </form>
+              <canvas-item area="problem"></canvas-item>
             </ul>
           </div>
           <div class="area">
             <h4 class="title">Existing Alternatives</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'existingAlternatives'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="existingAlternatives"></canvas-item>
             </ul>
           </div>
         </div>
@@ -37,21 +25,13 @@
           <div class="area">
             <h4 class="title">Solution</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'solution'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="solution"></canvas-item>
             </ul>
           </div>
           <div class="area">
             <h4 class="title">Key Metrics</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'keyMetrics'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="keyMetrics"></canvas-item>
             </ul>
           </div>
         </div>
@@ -61,21 +41,13 @@
           <div class="area">
             <h4 class="title">Unique Value Proposition</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'uniqueValueProposition'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="uniqueValueProposition"></canvas-item>
             </ul>
           </div>
           <div class="area">
             <h4 class="title">High Level Concept</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'highLevelConcept'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="highLevelConcept"></canvas-item>
             </ul>
           </div>
         </div>
@@ -85,21 +57,13 @@
           <div class="area">
             <h4 class="title">Unfair Advantage</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'unfairAdvantage'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="unfairAdvantage"></canvas-item>
             </ul>
           </div>
           <div class="area">
             <h4 class="title">Channels</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'channels'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="channels"></canvas-item>
             </ul>
           </div>
         </div>
@@ -109,21 +73,13 @@
           <div class="area">
             <h4 class="title">Customer Segments</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'customerSegments'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="customerSegments"></canvas-item>
             </ul>
           </div>
           <div class="area">
             <h4 class="title">Early Adopters</h4>
             <ul class="contents">
-              <li class="item" ng-repeat="(id, item) in items | canvasSort:'earlyAdopters'">
-                <p ng-click="toggle(this, $event)">{{item.content}}</p>
-                <input type="text" ng-model="item.content" ng-blur="update(id, $event)" placeholder="Type some texts."/>
-                <button ng-click="del(id)">Delete</button>
-              </li>
+              <canvas-item area="earlyAdopters"></canvas-item>
             </ul>
           </div>
         </div>

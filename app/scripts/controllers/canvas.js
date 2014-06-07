@@ -49,37 +49,61 @@ angular.module('canvasApp')
   });
 
 angular.module('canvasApp')
+  .directive('canvasItem', function(){
+    return {
+      scope: true,
+      restrict: 'E',
+      templateUrl: 'partials/canvas-item.html',
+      link: function($scope, $element, $attr){
+        $scope.itemArea = $attr.area;
+        $scope.newItem = {};
+        $scope.toggle = function(obj, $event){
+          var clickedDom = angular.element($event.target),
+            hidedDom,
+            focusOut;
+          if(clickedDom[0].tagName.toLowerCase() === 'p'){
+            hidedDom = clickedDom.next();
+            focusOut = true;
+          } else {
+            hidedDom = clickedDom.prev();
+          }
+          clickedDom.hide();
+          hidedDom.show();
+          if(focusOut){
+            hidedDom.focus();
+          }
+        };
+        $scope.save = function(id, $event){
+          $scope.toggle(id, $event);
+          $scope.update(id)
+        }
+        $scope.add = function(area){
+          var item = _.assign(angular.copy($scope.newItem), {
+            area: area,
+            createAt: new Date(),
+            updateAt: new Date()
+          });
+          $scope.create(item);
+          $scope.newItem = {};
+        }
+      }
+    }
+  });
+
+angular.module('canvasApp')
   .controller('CanvasCtrl', ['$scope', '$routeParams', 'fire', function ($scope, $routeParams, fire) {
-    $scope.newItem = { content: 'Empty content' };
     $scope.items = fire.initialize($routeParams.id);
-    $scope.create = function(area){
-      fire.create(_.assign(angular.copy($scope.newItem), {
-        area: area,
-        createAt: new Date(),
-        updateAt: new Date()
-      }));
-      $scope.newItem = { content: 'Empty content' };
+    $scope.create = function(item){
+      fire.create(item);
     };
     $scope.update = function(id, $event){
       fire.update(id);
-      $scope.toggle(id, $event);
     };
     $scope.del = function(id){
       fire.del(id);
     };
     $scope.test = function(){
       console.log($scope.items);
-    };
-    $scope.toggle = function(obj, $event){
-      var clickedDom = $($event.target),
-        hidedDom;
-      if(clickedDom[0].tagName.toLowerCase() === 'p'){
-        hidedDom = clickedDom.next();
-      } else {
-        hidedDom = clickedDom.prev();
-      }
-      clickedDom.hide();
-      hidedDom.show();
     };
   }]);
 

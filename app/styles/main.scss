@@ -27,11 +27,12 @@ section.canvas {
     .area-wrapper {
         border: 1px solid $common_border_color;
         .area {
-            padding: 8px;
+            padding: 4px;
             height: 180px;
             h4.title {
                 font-weight: bold;
-                margin-bottom: 8px;
+                margin-bottom: 4px;
+                padding: 4px;
             }
             .item {
                 p {
@@ -41,6 +42,9 @@ section.canvas {
                     }
                 }
                 input {
+                    display: none;
+                }
+                button {
                     display: none;
                 }
             }
@@ -99,4 +103,27 @@ https://github.com/yui/pure/blob/master/LICENSE.md
          url('http://dfimg.com/fonts/proximanova-regular-webfont.svg#ProximaNovaRegular') format('svg');
     font-weight: normal;
     font-style: normal;
+}
+
+.animate-enter, .animate-leave { 
+    -webkit-transition: 400ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+    -moz-transition: 400ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+    -ms-transition: 400ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+    -o-transition: 400ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+    transition: 400ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    text-overflow: clip;
+    white-space:nowrap;
+}
+.animate-leave.animate-leave-active, .animate-enter {
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+}
+.animate-enter.animate-enter-active, .animate-leave {
+    opacity: 1;
+    width: 150px;
+    height: 30px;
 }
