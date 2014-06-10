@@ -3,8 +3,9 @@
 angular.module('canvasApp')
   .controller('NavbarCtrl', function ($scope, $location) {
     $scope.menu = [
-	    { 'title': 'Home', 'link': '/' },
-      { 'title': 'canvas', 'link': '/canvas/-JObyI94_HAnQcyYnIBT' },
+      { 'title': 'Home', 'link': '/' },
+      { 'title': 'dashboard', 'link': '/dashboard' },
+      { 'title': 'canvas', 'link': '/canvas/-JObyI94_HAnQcyYnIBT' }
     ];
     
     $scope.isActive = function(route) {

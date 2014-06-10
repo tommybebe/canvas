@@ -1,62 +1,24 @@
 'use strict';
 angular.module('canvasApp')
-  .factory('fire', ['$firebase', 'FIREBASE_URI', function($firebase, FIREBASE_URI){
-    var ref = new Firebase(FIREBASE_URI + '/canvas'),
-      conn = $firebase(ref),
-      canvas = {},
-      items = {};
-
-    var initialize = function(id){
-      canvas = conn.$child(id);
-      items = canvas.$child('items');
-      return items;
-    },
-    create = function(item){
-      items.$add(item);
-    },
-    read = function(){
-      return items;
-    },
-    update = function(id){
-      items.$save(id);
-    },
-    del = function(id){
-      items.$remove(id);
-    };
-
-    return {
-      initialize: initialize,
-      create: create,
-      read: read,
-      update: update,
-      del: del
-    };
-  }]);
-
-angular.module('canvasApp')
   .filter('canvasSort', function(){
-    return function(input, area){
-      var filterd = {};
-      if(!input) { return; }
-      Object.keys(input).forEach(function(key){
-        var item = input[key];
-        if(item.area === area){
-          filterd[key] = item;
-        }
-      });
-      return filterd;
+    return function(input){
+      return input;
     };
   });
 
 angular.module('canvasApp')
-  .directive('canvasItem', function(){
+  .directive('canvasItems', function(){
     return {
       scope: true,
       restrict: 'E',
       templateUrl: 'partials/canvas-item.html',
       link: function($scope, $element, $attr){
         $scope.itemArea = $attr.area;
+        $scope.placeholder = $attr.placeholder;
         $scope.newItem = {};
+
+        $scope.items = $scope.area.$child($scope.itemArea);
+
         $scope.toggle = function(obj, $event){
           var clickedDom = angular.element($event.target),
             hidedDom,
@@ -75,35 +37,31 @@ angular.module('canvasApp')
         };
         $scope.save = function(id, $event){
           $scope.toggle(id, $event);
-          $scope.update(id)
-        }
+          $scope.items.$save(id);
+        };
         $scope.add = function(area){
           var item = _.assign(angular.copy($scope.newItem), {
             area: area,
             createAt: new Date(),
             updateAt: new Date()
           });
-          $scope.create(item);
+          if(!item || !item.content || item.content === ''){ return; }
+          $scope.items.$add(item);
           $scope.newItem = {};
-        }
+        };
+        $scope.del = function(id){
+          $scope.items.$remove(id);
+        };
       }
-    }
+    };
   });
 
 angular.module('canvasApp')
-  .controller('CanvasCtrl', ['$scope', '$routeParams', 'fire', function ($scope, $routeParams, fire) {
-    $scope.items = fire.initialize($routeParams.id);
-    $scope.create = function(item){
-      fire.create(item);
-    };
-    $scope.update = function(id, $event){
-      fire.update(id);
-    };
-    $scope.del = function(id){
-      fire.del(id);
-    };
-    $scope.test = function(){
-      console.log($scope.items);
+  .controller('CanvasCtrl', ['$scope', '$routeParams', 'db', function ($scope, $routeParams, db) {
+    var _db = db.initialize('canvas');
+    $scope.canvas = _db.$child($routeParams.id);
+    $scope.area = $scope.canvas.$child('area');
+    $scope.save = function(attr){
+      $scope.canvas.$child(attr).$set($scope.canvas.title);
     };
   }]);
-

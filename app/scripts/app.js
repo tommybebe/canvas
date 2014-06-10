@@ -13,6 +13,10 @@ angular.module('canvasApp', [
         templateUrl: 'partials/main',
         controller: 'MainCtrl'
       })
+      .when('/dashboard', {
+        templateUrl: 'partials/dashboard',
+        controller: 'DashboardCtrl'
+      })
       .when('/canvas/:id', {
         templateUrl: 'partials/canvas',
         controller: 'CanvasCtrl'

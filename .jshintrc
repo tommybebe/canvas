@@ -22,6 +22,7 @@
     "angular": false,
     "$": false,
     "Firebase": false,
+    "FirebaseSimpleLogin": false,
     "_": false
   }
 }

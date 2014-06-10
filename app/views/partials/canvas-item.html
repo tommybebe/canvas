@@ -1,9 +1,10 @@
-<li class="item" ng-repeat="(id, item) in items | canvasSort:itemArea" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
+<li class="item" ng-repeat="(id, item) in items | canvasSort" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}">
   <p ng-click="toggle(this, $event)">{{item.content}}</p>
   <input type="text" ng-model="item.content" ng-blur="save(id, $event)" placeholder="Type some texts."/>
-  <button ng-click="del(id)">Delete</button>
+  <button ng-click="del(id)"><span class="icon-minus-circle"></span></button>
 </li>
+<div class="placeholder" ng-hide="items.$getIndex().length">{{placeholder}}</div>
 <form novalidate ng-submit="add(itemArea)">
-  <input type="text" ng-model="newItem.content" placeholder="Type some texts."/>
-  <button type="submit">Create</button>
+  <input type="text" ng-model="newItem.content" placeholder="Add Content"/>
+  <button type="submit" ng-show="newItem.content">Add</button>
 </form>
