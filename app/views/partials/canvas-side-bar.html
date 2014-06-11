@@ -1,0 +1,24 @@
+<div class="wrapper">
+	<div class="members">
+    <h5>Authors</h5>
+    <ul>
+      <li ng-repeat="(id, author) in canvas.author">
+        <div class="name" ng-click="adjust(id)">{{author.name}}</div>
+      </li>
+    </ul>
+  </div>
+  <div class="activity">
+    <h5>Activity</h5>
+    <ul>
+      <li ng-repeat="(id, activity) in canvas.activity">
+        <div class="content">
+          <span>{{activity.user.name}}</span>
+          <span>{{activity.action}}</span>
+          <span>{{activity.area}}</span>
+          <span>{{activity.content}}</span>
+          <span>{{activity.date}}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

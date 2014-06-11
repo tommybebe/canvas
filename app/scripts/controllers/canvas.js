@@ -7,6 +7,15 @@ angular.module('canvasApp')
   });
 
 angular.module('canvasApp')
+  .directive('canvasSideBar', function(){
+    return {
+      scope: true,
+      restrict: 'E',
+      templateUrl: 'partials/canvas-side-bar.html'
+    };
+  });
+
+angular.module('canvasApp')
   .directive('canvasItems', function(){
     return {
       scope: true,

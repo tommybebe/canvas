@@ -1,22 +1,39 @@
 'use strict';
 angular.module('canvasApp')
   .controller('DashboardCtrl', ['$scope', '$routeParams', 'db', function ($scope, $routeParams, db) {
-    var auth = new FirebaseSimpleLogin(db.getRef(), function(error, user) {
+    $scope.auth = new FirebaseSimpleLogin(db.getRef(), function(error, user) {
       if (error) {
         // an error occurred while attempting login
         console.log(error);
       } else if (user) {
-        $scope.user = user;
-        // user authenticated with Firebase
-        console.log('User ID: ' + user.uid + ', Provider: ' + user.provider);
+        var _db = db.initialize('users');
+
+        $scope.user = _db.$child(user.uid);
+        $scope.user.$update({
+          uid: user.uid,
+          data: user.thirdPartyUserData,
+          lastLoginAt: new Date()
+        });
       } else {
         // user is logged out
-        console.log(arguments);
       }
     });
-    // auth.login('password', {
-    //   email: 'hansupanda@gmail.com',
-    //   password: '1111'
-    // });
-    auth.login('facebook');
+    $scope.create = function(){
+      var _db = db.initialize('canvas'),
+        newTitle = new Date(),
+        canvas = {
+          title: newTitle,
+          createAt: new Date(),
+          author: {}
+        };
+      canvas.author[$scope.user.uid] = {
+        name : $scope.user.data.name
+      };
+      _db.$add(canvas).then(function(ref){
+        var addedCanvasId = ref.name();
+        $scope.user.$child('canvas').$child(addedCanvasId).$update({
+          title: newTitle
+        });
+      });
+    };
   }]);

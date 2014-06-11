@@ -1,7 +1,10 @@
 'use strict';
 
 angular.module('canvasApp')
-  .controller('NavbarCtrl', function ($scope, $location) {
+  .controller('NavbarCtrl', ['$scope', '$location', 'auth', function ($scope, $location, auth) {
+
+    $scope.auth = auth;
+
     $scope.menu = [
       { 'title': 'Home', 'link': '/' },
       { 'title': 'dashboard', 'link': '/dashboard' },
@@ -11,4 +14,4 @@ angular.module('canvasApp')
     $scope.isActive = function(route) {
       return route === $location.path();
     };
-  });
+  }]);

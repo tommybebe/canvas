@@ -1,8 +1,9 @@
 <div ng-include="'partials/navbar'"></div>
 
 <section class="dashboard">
-  <input class="title" type="text" ng-model="canvas.title" ng-blur="save('title')" placeholder="Type some texts."/>
-  <div class="wrapper">
-    {{user.id}}
-  </div>
+  <ul class="user-canvas">
+    <li ng-repeat="(id, canvas) in user.canvas">
+      <a ng-href="/canvas/{{id}}">{{canvas.title}}</a>
+    </li>
+  </ul>
 </section>
