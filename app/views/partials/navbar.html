@@ -4,9 +4,12 @@
         <a ng-href="{{item.link}}">{{item.title}}</a>
     </li>
   </ul>
-  <h3 class="text-muted">canvas</h3>
 
   <div class="wrapper">
+    <div class="user" ng-show="user">
+      <img src="{{user.data.picture}}" alt="user picture">
+      <span class="name">{{user.data.name}}</span>
+    </div>
     <button ng-click="auth.login('facebook')" ng-clock ng-hide="user.uid">Login with Facebook</button>
     <button ng-click="auth.logout()" ng-clock ng-show="user.uid">Logout</button>
     <button ng-click="create()" ng-clock ng-show="user.uid">Create New Canvas</button>

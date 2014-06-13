@@ -11,7 +11,9 @@ angular.module('canvasApp')
         $rootScope.user = _db.$child(current.uid);
         $rootScope.user.$update({
           uid: current.uid,
-          data: current.thirdPartyUserData,
+          data: _.assign(current.thirdPartyUserData, {
+            picture: 'http://graph.facebook.com/'+current.id+'/picture?type=square'
+          }),
           lastLoginAt: new Date()
         });
       } else {

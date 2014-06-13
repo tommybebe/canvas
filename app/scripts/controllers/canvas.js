@@ -66,11 +66,32 @@ angular.module('canvasApp')
   });
 
 angular.module('canvasApp')
-  .controller('CanvasCtrl', ['$scope', '$routeParams', 'db', function ($scope, $routeParams, db) {
+  .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', 'db', function ($scope, $routeParams, $location, db) {
     var _db = db.initialize('canvas');
     $scope.canvas = _db.$child($routeParams.id);
     $scope.area = $scope.canvas.$child('area');
     $scope.save = function(attr){
       $scope.canvas.$child(attr).$set($scope.canvas.title);
+    };
+    $scope.del = function(){
+      var authors = $scope.canvas.author,
+        users = db.initialize('users');
+      Object.keys(authors).forEach(function(author){
+        users.$child(author).$child('canvas').$remove($scope.canvas.$id);
+      });
+      $scope.canvas.$remove();
+      $location.url('/dashboard');
+    };
+    $scope.getUserPicture = function(uid){
+      var user = uid.split(':'),
+        provider = user[0],
+        id = user[1],
+        img = {
+          facebook : function(id){
+            return 'http://graph.facebook.com/'+id+'/picture?type=square';
+          }
+        };
+
+      return img[provider](id);
     };
   }]);

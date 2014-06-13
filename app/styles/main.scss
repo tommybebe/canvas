@@ -50,6 +50,7 @@ section.canvas {
         .area {
             padding: 8px;
             height: 180px;
+            overflow: auto;
             @include transition_all();
             h4.title {
                 font-weight: bold;
