@@ -46,13 +46,17 @@ angular.module('canvasApp')
         };
         $scope.save = function(id, $event){
           $scope.toggle(id, $event);
-          $scope.items.$save(id);
+          $scope.items.$child(id)
+            .$update({
+              content: $event.target.value,
+              updatedAt: new Date()
+            });
+          // $scope.items.$save(id);
         };
         $scope.add = function(area){
           var item = _.assign(angular.copy($scope.newItem), {
             area: area,
-            createAt: new Date(),
-            updateAt: new Date()
+            createAt: new Date()
           });
           if(!item || !item.content || item.content === ''){ return; }
           $scope.items.$add(item);
@@ -66,22 +70,15 @@ angular.module('canvasApp')
   });
 
 angular.module('canvasApp')
-  .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', 'db', function ($scope, $routeParams, $location, db) {
-    var _db = db.initialize('canvas');
-    $scope.canvas = _db.$child($routeParams.id);
+  .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', 'db', 'canvasHandler', function ($scope, $routeParams, $location, db, canvasHandler) {
+    //
+    var canvas = canvasHandler.initialize($routeParams.id);
+    //
+    $scope.canvas = canvas.read();
+    $scope.save = canvas.save;
+    $scope.del = canvas.del;
+    
     $scope.area = $scope.canvas.$child('area');
-    $scope.save = function(attr){
-      $scope.canvas.$child(attr).$set($scope.canvas.title);
-    };
-    $scope.del = function(){
-      var authors = $scope.canvas.author,
-        users = db.initialize('users');
-      Object.keys(authors).forEach(function(author){
-        users.$child(author).$child('canvas').$remove($scope.canvas.$id);
-      });
-      $scope.canvas.$remove();
-      $location.url('/dashboard');
-    };
     $scope.getUserPicture = function(uid){
       var user = uid.split(':'),
         provider = user[0],
@@ -93,5 +90,47 @@ angular.module('canvasApp')
         };
 
       return img[provider](id);
+    };
+  }]);
+
+angular.module('canvasApp')
+  .service('canvasHandler', ['$q', '$location', 'db', function($q, $location, db){
+    var _db = db.initialize('canvas'),
+      canvas;
+
+    var authorsCanvasRemove = function(authors, canvasId){
+      var users = db.initialize('users'),
+        promises = Object.keys(authors).map(function(author){
+          var defer = $q.defer();
+          users.$child(author).$child('canvas')
+            .$remove(canvasId)
+            .then(function(data){
+              defer.resolve(data);
+            })
+            .then(null, function(err){
+              defer.reject(err);
+            });
+        });
+      return $q.all(promises);
+    };
+
+    this.initialize = function(id){
+      canvas = _db.$child(id);
+      return this;
+    };
+    this.del = function(){
+      authorsCanvasRemove(canvas.author, canvas.$id)
+        .then(function(){
+          return canvas.$remove();
+        })
+        .then(function(){
+          $location.url('/dashboard');
+        });
+    };
+    this.save = function(attr, val){
+      canvas.$child(attr).$set(val);
+    };
+    this.read = function(){
+      return canvas;
     };
   }]);
