@@ -1,25 +1,41 @@
-<div class="wrapper">
+<div class="buttons">
+  <button class="sidebar-show" ng-click="toggle=!toggle" ng-init="toggle=false" ng-hide="toggle">Show sidebar</button>
+  <button class="sidebar-hide" ng-click="toggle=!toggle" ng-show="toggle">▶</button>
+</div>
+<div class="wrapper" ng-show="toggle">
 	<div class="author">
-    <h5>Author</h5>
+    <h4>Author</h4>
     <ul>
       <li ng-repeat="(id, author) in canvas.author">
         <div class="picture">
-          <img src="{{getUserPicture(id)}}" alt="user picture"/>
+          <img src="{{author.picture}}" alt="user picture" title="{{author.name}}"/>
         </div>
         <div class="name" ng-click="adjust(id)">{{author.name}}</div>
       </li>
     </ul>
+    <button ng-init="_toggle=true" ng-show="_toggle" ng-click="_toggle=!_toggle">Add Author</button>
+    <form name="addAuthorForm" ng-submit="search()">
+      <input type="email" ng-hide="_toggle" ng-blur="_toggle=!_toggle" ng-model="newAuthor" placeholder="Type friend's email address" required/>
+    </form>
+    <div class="search-result" ng-show="searchResult">
+      <div class="user" ng-click="addAuthor(searchResult)">
+        <img src="{{searchResult.picture}}" ng-show="searchResult.picture">
+        <span>{{searchResult.name}}</span>
+        <div class="icon" ng-show="searchResult"><span class="icon-plus-circle"></span></div>
+      </div>
+    </div>
   </div>
 
-  <div class="manage">
+  <div class="manage" ng-show="canvas.author[user.uid]">
+    <h4>Manage</h4>
     <ul>
-      <li><button ng-click="">Clone this canvas</button></li>
-      <li><button ng-click="del()">Delete this canvas</button></li>
+      <!-- <li><button ng-click="">Clone this canvas</button></li> -->
+      <li><button ng-click="del(user)">Delete this canvas</button></li>
     </ul>
   </div>
 
-  <div class="activity" ng-show="false" ng-clock>
-    <h5>Activity</h5>
+  <div class="activity" ng-show="false" ng-clock ng-show="canvas.author[user.uid]">
+    <h4>Activity</h4>
     <ul>
       <li ng-repeat="(id, activity) in canvas.activity">
         <div class="content">

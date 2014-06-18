@@ -1,22 +1,18 @@
 <div ng-include="'partials/navbar'"></div>
 
 <section class="canvas">
-  <input class="title" type="text" ng-model="canvas.title" ng-blur="save('title', canvas.title)" placeholder="Type some texts."/>
+  <input class="canvasTitle" type="text" ng-model="canvas.title" ng-blur="save('title', canvas.title)" placeholder="Type some texts."/>
   <div class="wrapper">
     <div class="pure-g">
       <div class="pure-u-1-5">
         <div class="area-wrapper">
           <div class="area">
             <h4 class="title">Problem</h4>
-            <ul class="contents">
-              <canvas-items area="problem" placeholder="List your customer's top 3 problems"></canvas-items>
-            </ul>
+            <canvas-items area="problem" placeholder="List your customer's top 3 problems"></canvas-items>
           </div>
           <div class="area">
             <h4 class="title">Existing Alternatives</h4>
-            <ul class="contents">
-              <canvas-items area="existingAlternatives" placeholder="List how these problems are solved today"></canvas-items>
-            </ul>
+            <canvas-items area="existingAlternatives" placeholder="List how these problems are solved today"></canvas-items>
           </div>
         </div>
       </div>
@@ -24,15 +20,11 @@
         <div class="area-wrapper blocked">
           <div class="area">
             <h4 class="title">Solution</h4>
-            <ul class="contents">
-              <canvas-items area="solution" placeholder="Outline a possible solution for each problem"></canvas-items>
-            </ul>
+            <canvas-items area="solution" placeholder="Outline a possible solution for each problem"></canvas-items>
           </div>
           <div class="area">
             <h4 class="title">Key Metrics</h4>
-            <ul class="contents">
-              <canvas-items area="keyMetrics" placeholder="List the key numbers that tell you how your business is doing"></canvas-items>
-            </ul>
+            <canvas-items area="keyMetrics" placeholder="List the key numbers that tell you how your business is doing"></canvas-items>
           </div>
         </div>
       </div>
@@ -40,15 +32,11 @@
         <div class="area-wrapper">
           <div class="area">
             <h4 class="title">Unique Value Proposition</h4>
-            <ul class="contents">
-              <canvas-items area="uniqueValueProposition" placeholder="Single, clear, compelling message that turns an unaware visitor into an interested prospect"></canvas-items>
-            </ul>
+            <canvas-items area="uniqueValueProposition" placeholder="Single, clear, compelling message that turns an unaware visitor into an interested prospect"></canvas-items>
           </div>
           <div class="area">
             <h4 class="title">High Level Concept</h4>
-            <ul class="contents">
-              <canvas-items area="highLevelConcept" placeholder="List your X for Y analogy (e.g. YouTube = Flickr for videos)"></canvas-items>
-            </ul>
+            <canvas-items area="highLevelConcept" placeholder="List your X for Y analogy (e.g. YouTube = Flickr for videos)"></canvas-items>
           </div>
         </div>
       </div>
@@ -56,15 +44,11 @@
         <div class="area-wrapper blocked">
           <div class="area">
             <h4 class="title">Unfair Advantage</h4>
-            <ul class="contents">
-              <canvas-items area="unfairAdvantage" placeholder="Something that can't be easily copied or bought"></canvas-items>
-            </ul>
+            <canvas-items area="unfairAdvantage" placeholder="Something that can't be easily copied or bought"></canvas-items>
           </div>
           <div class="area">
             <h4 class="title">Channels</h4>
-            <ul class="contents">
-              <canvas-items area="channels" placeholder="List your path to customers"></canvas-items>
-            </ul>
+            <canvas-items area="channels" placeholder="List your path to customers"></canvas-items>
           </div>
         </div>
       </div>
@@ -72,15 +56,11 @@
         <div class="area-wrapper">
           <div class="area">
             <h4 class="title">Customer Segments</h4>
-            <ul class="contents">
-              <canvas-items area="customerSegments" placeholder="List your target customers and users"></canvas-items>
-            </ul>
+            <canvas-items area="customerSegments" placeholder="List your target customers and users"></canvas-items>
           </div>
           <div class="area">
             <h4 class="title">Early Adopters</h4>
-            <ul class="contents">
-              <canvas-items area="earlyAdopters" placeholder="List the characteristics of your ideal customers"></canvas-items>
-            </ul>
+            <canvas-items area="earlyAdopters" placeholder="List the characteristics of your ideal customers"></canvas-items>
           </div>
         </div>
       </div>
@@ -90,9 +70,7 @@
         <div class="area-wrapper">
           <div class="area">
             <h4 class="title">Cost Structure</h4>
-            <ul class="contents">
-              <canvas-items area="costStructure" placeholder="List your fixed and variable costs"></canvas-items>
-            </ul>
+            <canvas-items area="costStructure" placeholder="List your fixed and variable costs"></canvas-items>
           </div>
         </div>
       </div>
@@ -100,9 +78,7 @@
         <div class="area-wrapper">
           <div class="area">
             <h4 class="title">Revenue Streams</h4>
-            <ul class="contents">
-              <canvas-items area="revenueStreams" placeholder="List your sources of revenue"></canvas-items>
-            </ul>
+            <canvas-items area="revenueStreams" placeholder="List your sources of revenue"></canvas-items>
           </div>
         </div>
       </div>
@@ -110,4 +86,4 @@
   </div>
 </section>
 
-<canvas-side-bar ng-show="canvas.author[user.uid]"></canvas-side-bar>
+<section class="canvas-side-bar" canvas-side-bar></section canvas-side-bar>

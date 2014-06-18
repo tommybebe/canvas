@@ -10,6 +10,11 @@ angular.module('canvasApp')
       { 'title': 'dashboard', 'link': '/dashboard' },
       { 'title': 'canvas', 'link': '/canvas/-JObyI94_HAnQcyYnIBT' }
     ];
+
+    $scope.logout = function(){
+      auth.logout();
+      window.location='/';
+    };
     
     $scope.isActive = function(route) {
       return route === $location.path();

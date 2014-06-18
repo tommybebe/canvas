@@ -1,6 +1,6 @@
 'use strict';
 angular.module('canvasApp')
-  .controller('DashboardCtrl', ['$scope', '$routeParams', '$location', 'auth', 'db', function ($scope, $routeParams, $location, auth, db) {
+  .controller('DashboardCtrl', ['$scope', '$routeParams', '$location', 'db', function ($scope, $routeParams, $location, db) {
     
     $scope.create = function(){
       var _db = db.initialize('canvas'),
@@ -11,12 +11,15 @@ angular.module('canvasApp')
           author: {}
         };
       canvas.author[$scope.user.uid] = {
-        name : $scope.user.data.name
+        name: $scope.user.name,
+        picture: $scope.user.picture,
+        email: $scope.user.email
       };
       _db.$add(canvas).then(function(ref){
         var addedCanvasId = ref.name();
         $scope.user.$child('canvas').$child(addedCanvasId).$update({
-          title: newTitle
+          title: newTitle,
+
         }).then(function(){
           $location.url('/canvas/'+addedCanvasId);
         });

@@ -1,6 +1,11 @@
 <div ng-include="'partials/navbar'"></div>
 
 <section class="dashboard">
+  <div class="empty" ng-hide="user.canvas" ng-clock>
+    <p>You have no Canvas.</p>
+    <p>Why don't you</p>
+    <button>Create Canvas</button>
+  </div>
   <ul class="user-canvas">
     <li ng-repeat="(id, canvas) in user.canvas">
       <a ng-href="/canvas/{{id}}">{{canvas.title}}</a>

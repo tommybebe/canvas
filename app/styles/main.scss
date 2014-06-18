@@ -3,6 +3,13 @@
 
 // Variables
 $common_border_color: #888;
+$common_hover_border_color: #4285f4;
+$common_hover_back_color: #4285f4;
+$common_hover_color: #fff;
+
+$hover_panel_back_color: rgba(255, 255, 255, 0.9);
+$hover_panel_shadow: 0 1px 20px rgba(0, 0, 0, 0.3);
+
 $background_hover_color: #eee;
 $sans-serif: 'Open sans', sans-serif;
 $serif: 'PT serif', serif;
@@ -17,6 +24,34 @@ $placeholder_color: #888;
          -o-transition: $param;
             transition: $param;
 }
+@mixin gradient($from, $to){
+    background: -webkit-linear-gradient($from, $to);
+    background: -o-linear-gradient($from, $to);
+    background: -moz-linear-gradient($from, $to);
+    background: linear-gradient($from, $to);
+}
+@mixin hover_panel(){
+    background: $hover_panel_back_color;
+    box-shadow: $hover_panel_shadow;
+}
+@mixin rounded_corners ($radius: 4px) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    -ms-border-radius: $radius;
+    -o-border-radius: $radius;
+    border-radius: $radius;
+}
+@mixin clearfix() {
+    &:before,
+    &:after {
+        content: " "; // 1
+        display: table; // 2
+    }
+    &:after {
+        clear: both;
+    }
+}
+
 
 * {
     margin: 0;
@@ -29,8 +64,60 @@ $placeholder_color: #888;
     outline: none;
 }
 
+button {
+    padding: 4px;
+    border: 1px solid $common_border_color;
+    background: transparent;
+    cursor: pointer;
+    @include transition_all(all 0.25s ease);
+    &:hover {
+        border: 1px solid $common_hover_border_color;
+        background: $common_hover_back_color;
+        color: $common_hover_color;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+}
+button.icon {
+    border: 0;
+    color: $common_border_color;
+    font-size: 1.2em;
+    &:hover {
+        border: 0;
+        background: transparent;
+        color: #555;
+        box-shadow: 0 0 0;
+    }
+}
+
+input {
+    border: 0;
+    width: 100%;
+    padding: 4px;
+    border: 1px solid transparent;
+    border-bottom: 1px solid $common_border_color;
+    @include transition_all();
+    &:hover {
+        border: 1px solid #555;
+    }
+    &:focus {
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
+        outline: none;
+        border: 1px solid #4d90fe;
+    }
+}
+
+ul {
+    list-style: none;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: $sans-serif;
+    color: #555;
+}
+
 body {
     font-family: $sans-serif;
+    color: #333;
 }
 
 .browsehappy {
@@ -40,8 +127,22 @@ body {
     padding: 0.2em 0;
 }
 
+.header {
+    width: 240px;
+    height: 100%;
+    ul {
+        li {
+            display: inline-block;
+        }
+    }
+}
+
 section.canvas {
     padding: 12px;
+    .canvasTitle {
+        font-size: 1.5em;
+        margin: 12px 0;
+    }
     .wrapper {
         border: 1px solid $common_border_color;
     }
@@ -49,9 +150,17 @@ section.canvas {
         border: 1px solid $common_border_color;
         .area {
             padding: 8px;
-            height: 180px;
+            height: 240px;
             overflow: auto;
             @include transition_all();
+            input, p, .placeholder {
+                font-size: 0.9em;
+            }
+            p, .placeholder {
+                padding: 4px;
+                margin: 4px 0;
+            }
+
             h4.title {
                 font-weight: bold;
                 margin-bottom: 4px;
@@ -73,6 +182,7 @@ section.canvas {
                 }
                 input {
                     display: none;
+                    margin: 4px 0;
                 }
                 button {
                     display: none;
@@ -115,25 +225,104 @@ section.canvas {
             border-top: 1px solid $common_border_color;
         }
     }
-    input {
-        border: 0;
-        width: 100%;
-        padding: 4px;
-        margin: 4px 0;
-        border-bottom: 1px solid $common_border_color;
-        &:focus {
-            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.3);
-            outline: none;
-            border: 1px solid #4d90fe;
-            padding: 4px 3px 3px 3px;
+}
+
+section.canvas-side-bar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: 100%;
+    @include hover_panel();
+    .buttons {
+        position: absolute;
+        top: 12px;
+        right: 100%;
+        width: 120px;
+        text-align: right;
+        button {
+            padding: 4px 12px;
+            background: #fff;
+            border-right: 1px solid #fff;
+            &:hover {
+                box-shadow: 0 0 0;
+                border: 1px solid $common_hover_border_color;
+                background: $common_hover_back_color;
+                color: $common_hover_color;
+            }
         }
     }
-    input, p, .placeholder {
-        font-size: 0.9em;
-    }
-    p, .placeholder {
-        padding: 4px;
-        margin: 4px 0;
+    .wrapper {
+        width: 240px;
+        padding: 12px;
+        button {
+            display: block;
+            margin-top: 4px;
+            width: 100%;
+        }
+        input {
+            margin-top: 4px;
+        }
+        h4 {
+            border-top: 2px solid $common_border_color;
+            margin-bottom: 12px;
+            padding-top: 4px;
+        }
+        .author {
+            margin-bottom: 32px;
+            ul {
+                @include clearfix();
+                li {
+                    &:last-child {
+                        .picture {
+                            margin-left: 0;
+                        }
+                    }
+                    float: left;
+                    .picture {
+                        margin-right: 12px;
+                        img {
+                            width: 40px;
+                            height: 40px;
+                            @include rounded_corners();
+                        }
+                    }
+                    .name {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .search-result {
+            .user {
+                margin-top: 8px;
+                cursor: pointer;
+                padding: 4px;
+                height: 48px;
+                position: relative;
+                @include transition_all();
+                &:hover {
+                    background: $common_hover_back_color;
+                    color: $common_hover_color;
+                    @include rounded_corners();
+                }
+                img {
+                    width: 40px;
+                    height: 40px;
+                    @include rounded_corners();
+                }
+                span {
+                    vertical-align: top;
+                    display: inline-block;
+                    margin-top: 0.6em;
+                }
+                .icon {
+                    position: absolute;
+                    right: 8px;
+                    top: 0;
+                    font-size: 1.4em;
+                }
+            }
+        }
     }
 }
 
