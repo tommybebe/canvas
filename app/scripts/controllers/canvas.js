@@ -66,10 +66,12 @@ angular.module('canvasApp')
           }
         };
         $scope.save = function(id, $event){
-          $scope.toggle(id, $event);
+          // $scope.toggle(id, $event);
+          var input = $event.target.value || $event.target.elements[0].value;
+          if(!input){ return; }
           $scope.items.$child(id)
             .$update({
-              content: $event.target.value,
+              content: input,
               updatedAt: new Date()
             });
           // $scope.items.$save(id);

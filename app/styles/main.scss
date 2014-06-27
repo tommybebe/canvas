@@ -175,6 +175,7 @@ section.canvas {
                 position: relative;
                 p {
                     cursor: pointer;
+                    word-break: break-all;
                     @include transition_all();
                     &:hover {
                         background: $background_hover_color;
@@ -200,6 +201,9 @@ section.canvas {
                 input {
                     opacity: 0;
                     @include transition_all();
+                    &:focus {
+                        opacity: 1;
+                    }
                 }
             }
             &:hover {

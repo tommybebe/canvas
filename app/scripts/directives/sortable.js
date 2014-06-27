@@ -34,7 +34,8 @@ angular.module('ui.sortable', [])
                 after = _.findKey(model, { $priority: ended });
               model[before].$priority = ended;
               model[after].$priority = started;
-              model.$save();
+              model.$save(before);
+              model.$save(after);
             },
             update: function(){
               
