@@ -17,7 +17,7 @@ angular.module('canvasApp')
           if($scope.searchResult.$getIndex().length === 0){
             $scope.searchResult = {
               name: 'No result with ' + $scope.newAuthor
-            }
+            };
           }
         };
         $scope.addAuthor = function(user){
