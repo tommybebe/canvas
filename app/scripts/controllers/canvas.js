@@ -87,7 +87,17 @@ angular.module('canvasApp')
           $scope.newItem = {};
         };
         $scope.del = function(id){
-          $scope.items.$remove(id);
+          var array = [],
+            index = $scope.items[id].$priority;
+          $scope.items.$getIndex().forEach(function(key){
+            array.push($scope.items[key]);
+          });          
+          for(var i=index; i<$scope.items.$getIndex().length; i++){
+            array[i].$priority--;
+          }
+          delete $scope.items[id]; // $scope.items.$remove(id)
+          $scope.items.$save();
+          
         };
       }
     };

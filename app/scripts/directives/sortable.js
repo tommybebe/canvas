@@ -61,15 +61,33 @@ angular.module('ui.sortable', [])
             },
             update: function(e, ui){
               var model = ngModel.$modelValue,
+                array = [],
                 started = ui.item.sortable.index,
-                ended = ui.item.index(),
-                before = _.findKey(model, { $priority: started }),
-                after = _.findKey(model, { $priority: ended });
+                ended = ui.item.index();
+                // before = _.findKey(model, { $priority: started }),
+                // after = _.findKey(model, { $priority: ended });
 
               savedNodes.appendTo(element);
 
-              model[before].$priority = ended;
-              model[after].$priority = started;
+              model.$getIndex().forEach(function(key){
+                array.push(model[key]);
+              });
+
+              // array push
+              // [1,2,3,4,5,6] > [1,2,-,4,5,6] > [1,2,4,5,-,6] > [1,2,4,5,3,6]
+              // [1,2,3,4,5,6] > [1,2,3,4,-,6] > [1,2,-,3,4,6] > [1,2,5,3,4,6]
+              var small = started>ended?ended:started,
+                big = started>ended?started:ended;
+              
+              array[started].$priority = ended;
+
+              if(started<ended){
+                big++;
+                small++;
+              }
+              for(var i = small; i<big; i++){
+                array[i].$priority += started>ended?+1:-1;
+              }
               model.$save();
             }
           });
