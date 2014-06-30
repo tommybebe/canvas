@@ -1,6 +1,6 @@
 'use strict';
 angular.module('canvasApp')
-  .directive('canvasSideBar', ['db', function(db){
+  .directive('canvasSideBar', ['db', 'auth', function(db, auth){
     function escapeEmail(email){
       return (email || '').replace('.', ',');
     }
@@ -16,19 +16,27 @@ angular.module('canvasApp')
           $scope.searchResult = _db.$child(input);
           if($scope.searchResult.$getIndex().length === 0){
             $scope.searchResult = {
-              name: 'No result with ' + $scope.newAuthor
+              noResult: 'No result with ' + $scope.newAuthor
             };
           }
         };
-        $scope.addAuthor = function(user){
-          $scope.canvas.$child('author').$child(user.uid)
+        $scope.addAuthor = function(invitedUser){
+          if(!invitedUser || !invitedUser.name || !invitedUser.picture){
+            $scope.searchResult = '';
+            $scope.newAuthor = '';
+            return;
+          }
+          $scope.canvas.$child('author').$child(invitedUser.uid)
             .$set({
-              email: user.email,
-              name: user.name,
-              picture: user.picture
+              email: invitedUser.email,
+              name: invitedUser.name,
+              picture: invitedUser.picture
             })
             .then(function(){
               $scope.searchResult = '';
+              $scope.newAuthor = '';
+              // invite message to user
+              auth.message.send('invite', $scope.canvas, invitedUser);
             });
         };
       }
@@ -91,7 +99,7 @@ angular.module('canvasApp')
             index = $scope.items[id].$priority;
           $scope.items.$getIndex().forEach(function(key){
             array.push($scope.items[key]);
-          });          
+          });
           for(var i=index; i<$scope.items.$getIndex().length; i++){
             array[i].$priority--;
           }
@@ -115,27 +123,16 @@ angular.module('canvasApp')
   }]);
 
 angular.module('canvasApp')
-  .service('canvasHandler', ['$q', '$location', 'db', function($q, $location, db){
+  .service('canvasHandler', ['$q', '$location', 'db', 'auth', function($q, $location, db, auth){
     var _db = db.initialize('canvas'),
-      canvas;
+      canvas, legacy;
 
-    var authorsCanvasRemove = function(authors, canvasId, user){
-      var message = db.initialize('message'),
-        now = new Date(),
-        promises = Object.keys(authors).map(function(author){
+    var authorsCanvasRemove = function(authors, canvas, user){
+      var promises = Object.keys(authors).map(function(author){
           if(author === user.uid){
-            return user.$child('canvas').$remove(canvasId);
+            return user.$child('canvas').$remove(canvas.$id);
           } else {
-            return message.$child(author).$add({
-                createAt: now,
-                type: 'delete',
-                content: canvasId,
-                from: {
-                  name: user.name,
-                  uid: user.uid,
-                  email: user.email
-                }
-              });
+            return auth.message.send('delete', canvas, authors[author].email.replace('.', ','));
           }
         });
       return $q.all(promises);
@@ -146,7 +143,7 @@ angular.module('canvasApp')
       return this;
     };
     this.del = function(user){
-      authorsCanvasRemove(canvas.author, canvas.$id, user)
+      authorsCanvasRemove(canvas.author, canvas, user)
         .then(function(){
           return canvas.$remove();
         })
@@ -155,7 +152,20 @@ angular.module('canvasApp')
         });
     };
     this.save = function(attr, val){
+      if(legacy === canvas.title){
+        return;
+      }
       canvas.$child(attr).$set(val);
+      // update users data, with only title attr
+      if(attr==='title'){
+        auth.canvas.update(canvas.$id, {
+          title: val
+        });
+        angular.forEach(canvas.author, function(user){
+          auth.message.send('update', canvas, user.email.replace('.', ','));
+        });
+      }
+      legacy = canvas.title;
     };
     this.read = function(){
       return canvas;

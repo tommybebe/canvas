@@ -5,7 +5,11 @@ angular.module('canvasApp')
     this.initialize = function(resource){
       return $firebase(ref).$child(resource);
     };
-    this.getRef = function(){
-      return ref;
+    this.getRef = function(child){
+      if(child){
+        return ref.child(child);
+      } else {
+        return ref;
+      }
     };
   }]);

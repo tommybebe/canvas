@@ -18,8 +18,7 @@ angular.module('canvasApp')
       _db.$add(canvas).then(function(ref){
         var addedCanvasId = ref.name();
         $scope.user.$child('canvas').$child(addedCanvasId).$update({
-          title: newTitle,
-
+          title: newTitle
         }).then(function(){
           $location.url('/canvas/'+addedCanvasId);
         });

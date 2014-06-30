@@ -1,11 +1,13 @@
-<div ng-include="'partials/navbar'"></div>
-
-<div class="jumbotron">
-  <h1>'Allo, 'Allo!</h1>
-  <p class="lead">
-    This project/site is a imitation of <a href="https://leanstack.com">https://leanstack.com</a>
-  </p>
-  <p>Made with <a href="https://angularjs.org/">AngularJS</a> / <a href="https://www.firebase.com">Firebase</a></p>
-</div>
-
-.
+<section class="main page" ng-hide="user">
+  <div class="background">THE BUSINESS MODEL CANVAS IS A STRATEGIC MANAGEMENT AND LEAN STARTUP TEMPLATE FOR DEVELOPING NEW OR DOCUMENTING EXISTING BUSINESS MODELS. IT IS A VISUAL CHART WITH ELEMENTS DESCRIBING A FIRM'S VALUE PROPOSITION, INFRASTRUCTURE, CUSTOMERS, AND FINANCES.IT ASSISTS FIRMS IN ALIGNING THEIR ACTIVITIES BY ILLUSTRATING POTENTIAL TRADE-OFFS. THE BUSINESS MODEL CANVAS WAS INITIALLY PROPOSED BY ALEXANDER OSTERWALDER BASED ON HIS EARLIER WORK ON BUSINESS MODEL ONTOLOGY. SINCE THE RELEASE OF OSTERWALDER'S WORK IN 2008, NEW CANVASES FOR SPECIFIC NICHES HAVE APPEARED, SUCH AS THE LEAN CANVAS.THE BUSINESS MODEL CANVAS IS A STRATEGIC MANAGEMENT AND LEAN STARTUP TEMPLATE FOR DEVELOPING NEW OR DOCUMENTING EXISTING BUSINESS MODELS. IT IS A VISUAL CHART WITH ELEMENTS DESCRIBING A FIRM'S VALUE PROPOSITION, INFRASTRUCTURE, CUSTOMERS, AND FINANCES.IT ASSISTS FIRMS IN ALIGNING THEIR ACTIVITIES BY ILLUSTRATING POTENTIAL TRADE-OFFS. THE BUSINESS MODEL CANVAS WAS INITIALLY PROPOSED BY ALEXANDER OSTERWALDER BASED ON HIS EARLIER WORK ON BUSINESS MODEL ONTOLOGY. SINCE THE RELEASE OF OSTERWALDER'S WORK IN 2008, NEW CANVASES FOR SPECIFIC NICHES HAVE APPEARED, SUCH AS THE LEAN CANVAS.</div>
+  <div class="jumbotron">
+  	<h1>HAVE SOME IDEA?</h1>
+    <button class="big button" ng-click="auth.login('facebook', { scope: 'email' })">Try Lean Canvas</button>
+    <div class="lead">
+      <p>This project/site is a imitation of <a href="https://leanstack.com">https://leanstack.com</a></p>
+      <p>Made with <a href="https://angularjs.org/">AngularJS</a> / <a href="https://www.firebase.com">Firebase</a></p>
+    </div>
+  </div>
+  <div ng-include="'partials/footer'"></div>
+</section>
+<div ng-include="'partials/dashboard'" ng-show="user"></div>

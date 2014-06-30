@@ -5,7 +5,8 @@ angular.module('canvasApp', [
   'ngSanitize',
   'ngRoute',
   'firebase',
-  'ui.sortable'
+  'ui.sortable',
+  'yaru22.angular-timeago'
 ])
   .constant('FIREBASE_URI', 'https://burning-fire-8122.firebaseio.com')
   .config(function ($routeProvider, $locationProvider) {

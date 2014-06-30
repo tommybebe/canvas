@@ -1,7 +1,7 @@
 <ul class="content" ui-sortable ng-model="items">
   <li class="item" ng-repeat="item in items | orderByPriority" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" data-priority="{{item.$priority}}">
   	<form ng-submit="save(item.$id, $event)">
-	    <p ng-click="toggle(this, $event)">{{item.content}}---{{item.$priority}}</p>
+	    <p ng-click="toggle(this, $event)">{{item.content}}</p>
 	    <input type="text" ng-model="item.content" ng-blur="save(item.$id, $event)" placeholder="Type some texts."/>
 	</form>
     <button class="icon" ng-click="del(item.$id)"><span class="icon-trash-o"></span></button>
