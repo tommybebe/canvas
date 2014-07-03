@@ -1,8 +1,9 @@
 <div ng-include="'partials/navbar'"></div>
-<div class="notFound" ng-hide="canvas.title" notFound></div>
-<section class="canvas" ng-show="canvas.title">
+<div class="notFound" ng-hide="canvas.createAt" notFound></div>
+<section class="canvas" ng-show="canvas.createAt">
   <div class="wrapper">
-    <input class="canvasTitle" type="text" ng-model="canvas.title" ng-blur="save('title', canvas.title)" placeholder="Type some texts."/>
+    <input class="canvasTitle" type="text" ng-model="canvas.title" ng-blur="save('title', canvas.title)" ng-show="canvas.author[user.uid]" placeholder="Type some texts."/>
+    <h1 class="canvasTitle" ng-hide="canvas.author[user.uid]">{{canvas.title}}</h1>
     <div class="canvas-wrapper">
       <div class="pure-g">
         <div class="pure-u-1-5">

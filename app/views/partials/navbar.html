@@ -20,7 +20,7 @@
         <div class="messageCount" ng-hide="!message||message.$getIndex().length===0">{{message.$getIndex().length}}</div>
         <ul class="message alert" ng-show="toggle">
           <li ng-hide="message.$getIndex().length!==0">You've got no new message</li>
-          <li ng-repeat="(id, item) in message" ng-mouseleave="check(id)">
+          <li ng-repeat="(id, item) in message" ng-mouseover="check(id)">
             <img src="{{item.from.picture}}"/>
             <p>{{item.from.name}} {{item.type}}d canvas <a ng-href="/canvas/{{item.target.id}}">"{{item.target.title}}"</a> {{item.createAt | timeAgo}}</p>
           </li>
@@ -28,7 +28,7 @@
       </div>
       <button ng-click="auth.login('facebook', { scope: 'email' })" ng-clock ng-hide="user.uid">Login with Facebook</button>
       <button ng-click="logout()" ng-clock ng-show="user.uid">Logout</button>
-      <button ng-click="create()" ng-clock ng-show="user.uid"><span class="icon-plus"></span> Create New Canvas</button>
+      <button ng-click="create()" ng-clock ng-show="user.uid"><span class="icon-plus"></span> New Canvas</button>
     </div>
   </div>
 </div>

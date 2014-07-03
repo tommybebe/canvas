@@ -3,7 +3,10 @@
 describe('Controller: CanvasCtrl', function () {
 
   // load the controller's module
-  // beforeEach(module('canvasApp'));
+  beforeEach(module('canvasApp'));
+  beforeEach(function(){
+    browser().navigateTo('../../../app/index.html');
+  });
 
   // var CanvasCtrl,
   //   scope,

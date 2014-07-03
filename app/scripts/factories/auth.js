@@ -1,6 +1,6 @@
 'use strict';
 angular.module('canvasApp')
-  .factory('auth', ['$rootScope', 'db', function($rootScope, db){
+  .factory('auth', ['$rootScope', '$q', 'db', function($rootScope, $q, db){
     var auth = new FirebaseSimpleLogin(db.getRef(), function(error, current) {
       if (error) {
         // an error occurred while attempting login
@@ -17,7 +17,11 @@ angular.module('canvasApp')
 
         auth.user = user;
         $rootScope.user = _db.$child(escapedEmail);
-        $rootScope.user.$update(user);
+        $rootScope.user
+          .$update(user)
+          .then(function(){
+            $rootScope.$broadcast('auth:login');
+          });
           // .then(function(){
           //   var index = db.initialize('userIndex');
           //   index.$child(escapedEmail).$set(user.uid);
@@ -95,6 +99,17 @@ angular.module('canvasApp')
       update: function(id, val){
         return $rootScope.user.$child('canvas').$child(id).$set(val);
       }
+    };
+    auth.getCurrentUser = function(){
+      var q = $q.defer();
+      if($rootScope.user){
+        q.resolve($rootScope.user);
+      } else {
+        $rootScope.$on('auth:login', function(){
+          q.resolve($rootScope.user);
+        });
+      }
+      return q.promise;
     };
     function escapeEmail(email){
       return (email || '').replace('.', ',');

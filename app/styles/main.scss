@@ -371,6 +371,14 @@ section.dashboard {
     padding: 1em 0;
     border-top: 2px solid $common_border_color;
   }
+  ul.user-canvas {
+    li {
+      h1 {
+        margin: 8px 0;
+        padding: 8px 0;
+      }
+    }
+  }
 }
 
 section.main {

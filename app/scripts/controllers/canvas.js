@@ -39,6 +39,11 @@ angular.module('canvasApp')
               auth.message.send('invite', $scope.canvas, invitedUser);
             });
         };
+        $scope.delAuthor = function(targetUser){
+          var targetUserId = targetUser.email.replace('.', ',');
+          $scope.canvas.$child('author').$remove(targetUserId);
+          auth.message.send('authority remove', $scope.canvas, targetUserId);
+        };
       }
     };
   }]);
@@ -117,9 +122,11 @@ angular.module('canvasApp')
     var canvas = canvasHandler.initialize($routeParams.id);
     //
     $scope.canvas = canvas.read();
+    $scope.create = canvas.create;
     $scope.save = canvas.save;
     $scope.del = canvas.del;
     $scope.area = $scope.canvas.$child('area');
+
   }]);
 
 angular.module('canvasApp')
@@ -142,8 +149,35 @@ angular.module('canvasApp')
       canvas = _db.$child(id);
       return this;
     };
-    this.del = function(user){
-      authorsCanvasRemove(canvas.author, canvas, user)
+    this.create = function(){
+      auth.getCurrentUser()
+        .then(function(user){
+          var newTitle = new Date(),
+            canvas = {
+              title: newTitle,
+              createAt: new Date(),
+              author: {}
+            };
+          canvas.author[user.uid] = {
+            name: user.name,
+            picture: user.picture,
+            email: user.email
+          };
+          _db.$add(canvas).then(function(ref){
+            var addedCanvasId = ref.name();
+            user.$child('canvas').$child(addedCanvasId).$update({
+              title: newTitle
+            }).then(function(){
+              $location.url('/canvas/'+addedCanvasId);
+            });
+          });
+        });
+    };
+    this.del = function(){
+      auth.getCurrentUser()
+        .then(function(user){
+          return authorsCanvasRemove(canvas.author, canvas, user)
+        })
         .then(function(){
           return canvas.$remove();
         })
@@ -158,12 +192,15 @@ angular.module('canvasApp')
       canvas.$child(attr).$set(val);
       // update users data, with only title attr
       if(attr==='title'){
-        auth.canvas.update(canvas.$id, {
-          title: val
-        });
-        angular.forEach(canvas.author, function(user){
-          auth.message.send('update', canvas, user.email.replace('.', ','));
-        });
+        auth.canvas
+          .update(canvas.$id, {
+            title: val
+          })
+          .then(function(){
+            angular.forEach(canvas.author, function(user){
+              auth.message.send('update', canvas, user.email.replace('.', ','));
+            });
+          });
       }
       legacy = canvas.title;
     };

@@ -9,6 +9,9 @@
       <li ng-repeat="(id, author) in canvas.author">
         <div class="picture">
           <img src="{{author.picture}}" alt="user picture" title="{{author.name}}"/>
+          <button class="icon" ng-click="delAuthor(author)" ng-show="canvas.author[user.uid]&&id!==user.uid">
+            <span class="icon-minus-circle"></span>
+          </button>
         </div>
         <div class="name" ng-click="adjust(id)">{{author.name}}</div>
       </li>
