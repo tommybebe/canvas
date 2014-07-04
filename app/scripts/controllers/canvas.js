@@ -1,6 +1,6 @@
 'use strict';
 angular.module('canvasApp')
-  .directive('canvasSideBar', ['db', 'auth', function(db, auth){
+  .directive('canvasSideBar', ['db', 'auth', 'TEMPLATE', function(db, auth, TEMPLATE){
     function escapeEmail(email){
       return (email || '').replace('.', ',');
     }
@@ -8,7 +8,7 @@ angular.module('canvasApp')
     return {
       scope: true,
       restrict: 'A',
-      templateUrl: 'partials/canvas-side-bar.html',
+      templateUrl: TEMPLATE.canvasSideBar,
       link: function($scope){
         var _db = db.initialize('users');
         $scope.search = function(){
@@ -28,6 +28,7 @@ angular.module('canvasApp')
           }
           $scope.canvas.$child('author').$child(invitedUser.uid)
             .$set({
+              uid: invitedUser.uid,
               email: invitedUser.email,
               name: invitedUser.name,
               picture: invitedUser.picture
@@ -36,24 +37,27 @@ angular.module('canvasApp')
               $scope.searchResult = '';
               $scope.newAuthor = '';
               // invite message to user
-              auth.message.send('invite', $scope.canvas, invitedUser);
+              auth.message.send('invited', $scope.canvas, invitedUser);
             });
         };
         $scope.delAuthor = function(targetUser){
-          var targetUserId = targetUser.email.replace('.', ',');
-          $scope.canvas.$child('author').$remove(targetUserId);
-          auth.message.send('authority remove', $scope.canvas, targetUserId);
+          if(!targetUser || !targetUser.uid){ return; }
+          $scope.canvas.$child('author')
+            .$remove(targetUser.uid)
+            .then(function(){
+              auth.message.send('has removed your authority', $scope.canvas, targetUser.email.replace('.', ','));
+            });
         };
       }
     };
   }]);
 
 angular.module('canvasApp')
-  .directive('canvasItems', function(){
+  .directive('canvasItems', ['TEMPLATE', function(TEMPLATE){
     return {
       scope: true,
       restrict: 'E',
-      templateUrl: 'partials/canvas-item.html',
+      templateUrl: TEMPLATE.canvasItem,
       link: function($scope, $element, $attr){
         $scope.itemArea = $attr.area;
         $scope.placeholder = $attr.placeholder;
@@ -114,7 +118,7 @@ angular.module('canvasApp')
         };
       }
     };
-  });
+  }]);
 
 angular.module('canvasApp')
   .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', 'db', 'canvasHandler', function ($scope, $routeParams, $location, db, canvasHandler) {
@@ -126,7 +130,11 @@ angular.module('canvasApp')
     $scope.save = canvas.save;
     $scope.del = canvas.del;
     $scope.area = $scope.canvas.$child('area');
+    $scope.loaded = false;
 
+    $scope.canvas.$on('loaded', function(){
+      $scope.loaded = true;
+    });
   }]);
 
 angular.module('canvasApp')
@@ -139,7 +147,7 @@ angular.module('canvasApp')
           if(author === user.uid){
             return user.$child('canvas').$remove(canvas.$id);
           } else {
-            return auth.message.send('delete', canvas, authors[author].email.replace('.', ','));
+            return auth.message.send('deleted', canvas, authors[author].email.replace('.', ','));
           }
         });
       return $q.all(promises);
@@ -159,6 +167,7 @@ angular.module('canvasApp')
               author: {}
             };
           canvas.author[user.uid] = {
+            uid: user.uid,
             name: user.name,
             picture: user.picture,
             email: user.email
@@ -176,7 +185,7 @@ angular.module('canvasApp')
     this.del = function(){
       auth.getCurrentUser()
         .then(function(user){
-          return authorsCanvasRemove(canvas.author, canvas, user)
+          return authorsCanvasRemove(canvas.author, canvas, user);
         })
         .then(function(){
           return canvas.$remove();
@@ -198,7 +207,7 @@ angular.module('canvasApp')
           })
           .then(function(){
             angular.forEach(canvas.author, function(user){
-              auth.message.send('update', canvas, user.email.replace('.', ','));
+              auth.message.send('updated', canvas, user.email.replace('.', ','));
             });
           });
       }

@@ -32,9 +32,9 @@ angular.module('canvasApp')
           // check & update
           var message = data.val() || {},
             array = _.values(message),
-            invited = array.filter(function(val){ return val.type==='invite'; }),
-            deleted = array.filter(function(val){ return val.type==='delete'; }),
-            updated = array.filter(function(val){ return val.type==='update'; });
+            invited = array.filter(function(val){ return val.type==='invited'; }),
+            deleted = array.filter(function(val){ return val.type==='deleted'||val.type==='has removed your authority'; }),
+            updated = array.filter(function(val){ return val.type==='updated'; });
 
           if((invited.length+updated.length+deleted.length)>0){
             angular.forEach(invited, function(val){

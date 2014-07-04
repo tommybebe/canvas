@@ -23,6 +23,7 @@
     "$": false,
     "Firebase": false,
     "FirebaseSimpleLogin": false,
-    "_": false
+    "_": false,
+    "cxApi": false
   }
 }

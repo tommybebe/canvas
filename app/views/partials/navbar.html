@@ -22,7 +22,7 @@
           <li ng-hide="message.$getIndex().length!==0">You've got no new message</li>
           <li ng-repeat="(id, item) in message" ng-mouseover="check(id)">
             <img src="{{item.from.picture}}"/>
-            <p>{{item.from.name}} {{item.type}}d canvas <a ng-href="/canvas/{{item.target.id}}">"{{item.target.title}}"</a> {{item.createAt | timeAgo}}</p>
+            <p>{{item.from.name}} {{item.type}} canvas <a ng-href="/canvas/{{item.target.id}}">"{{item.target.title}}"</a> {{item.createAt | timeAgo}}</p>
           </li>
         </ul>
       </div>

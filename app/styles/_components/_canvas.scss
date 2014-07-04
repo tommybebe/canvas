@@ -1,0 +1,262 @@
+section.canvas {
+  .canvasTitle {
+    font-size: 2em;
+    color: $big_font_color;
+    margin: 12px 0;
+    background: transparent;
+  }
+  .canvas-wrapper {
+    border: 1px solid $common_border_color;
+  }
+  .area-wrapper {
+    border: 1px solid $common_border_color;
+    .area {
+      padding: 8px;
+      height: 240px;
+      overflow: auto;
+      @include transition_all;
+      input, p, .placeholder {
+        font-size: 0.9em;
+      }
+      p, .placeholder {
+        padding: 4px;
+        margin: 4px 0;
+      }
+
+      h4.title {
+        font-weight: bold;
+        margin-bottom: 4px;
+        padding: 4px;
+      }
+      .placeholder {
+        color: $placeholder_color;
+        font-style: italic;
+        font-family: $serif;
+      }
+      .item {
+        position: relative;
+        @include transition_all;
+        p {
+          cursor: pointer;
+          word-break: break-all;
+          @include transition_all;
+          &:hover {
+            background: #dfdfdf;
+          }
+        }
+        input {
+          display: none;
+          margin: 4px 0;
+        }
+        button {
+          display: none;
+        }
+        &:hover {
+          button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            display: inline-block;
+          }
+        }
+      }
+      form {
+        input {
+          opacity: 0;
+          @include transition_all;
+          &:focus {
+            opacity: 1;
+          }
+        }
+      }
+      &:hover {
+        background: $background_hover_color;
+        form {
+          input {
+            opacity: 1;
+          }
+        }
+      }
+    }
+    ul {
+      list-style: none;
+      li {
+      }
+    }
+  }
+  .area-wrapper.blocked {
+    .area:first-child {
+      border-bottom: 1px solid $common_border_color;
+    }
+    .area:last-child {
+      border-top: 1px solid $common_border_color;
+    }
+  }
+}
+
+section.canvas-side-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100%;
+  padding-top: 62px;
+  @include hover_panel();
+  .buttons {
+    position: absolute;
+    top: 62px;
+    right: 100%;
+    width: 120px;
+    text-align: right;
+    button {
+      padding: 4px 12px;
+      background: #fff;
+      border-right: 1px solid #fff;
+      box-shadow: -2px 1px 4px rgba(0,0,0,0.3);
+      @include prefixr(border-top-right-radius, 0);
+      @include prefixr(border-bottom-right-radius, 0);
+      &:hover {
+        border: 1px solid $common_hover_border_color;
+        background: $common_hover_back_color;
+        color: $common_hover_color;
+      }
+    }
+  }
+  .wrapper {
+    width: 300px;
+    padding: 12px;
+    button {
+      display: block;
+      margin-top: 4px;
+      width: 100%;
+    }
+    input {
+      margin-top: 4px;
+    }
+    h4 {
+      border-top: 2px solid $common_border_color;
+      margin-bottom: 12px;
+      padding-top: 4px;
+    }
+    .author {
+      margin-bottom: 32px;
+      ul {
+        @include clearfix();
+        position: relative;
+        li {
+          display: inline-block;
+          vertical-align: top;
+          // position: relative;
+          margin-right: 12px;
+          &:last-child {
+            .picture {
+              margin-left: 0;
+            }
+          }
+          .picture {
+            cursor: pointer;
+            img {
+              width: 40px;
+              height: 40px;
+              vertical-align: top;
+              @include rounded_corners;
+            }
+          }
+          button.icon {
+            position: absolute;
+            top: 0;
+            left: 0;
+            margin: 0;
+            height: 100%;
+            opacity: 0;
+            &:hover {
+              opacity: 1;
+            }
+          }
+          .aboutUser {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 278px;
+            padding: 12px;
+            font-size: 0.85em;
+            min-height: 74px;
+            @include hover_panel;
+            @include rounded_corners;
+            img {
+              @include rounded_corners; 
+              display: inline-block;
+              position: absolute;
+            }
+            span.name, span.email {
+              display: inline-block;
+              padding-left: 60px;
+              width: 240px;
+              overflow: hidden;
+              @include ellipsis;
+            }
+            span.email {
+              font-size: 0.8em;
+            }
+            button.remove {
+              margin-top: 20px;
+            }
+            button.close {
+              position: absolute;
+              top: 0;
+              right: 0;
+              width: auto;
+              border: 0;
+              box-shadow: 0 0 0;
+              background: transparent;
+              font-size: 1.1em;
+              color: $font_color;
+              &::hover {
+                box-shadow: 0 0 0;
+                background: transparent;
+                span.icon {
+                  color: $font_color;
+                }
+              }
+            }
+          }
+        }
+      }
+      .authorManage {
+        margin-top: 1em;
+      }
+    }
+    .search-result {
+      .user {
+        margin-top: 8px;
+        cursor: pointer;
+        padding: 4px;
+        position: relative;
+        @include transition_all;
+        &:hover {
+          background: $common_hover_back_color;
+          color: $common_hover_color;
+          @include rounded_corners;
+        }
+        img {
+          width: 40px;
+          height: 40px;
+          @include rounded_corners;
+        }
+        span {
+          vertical-align: top;
+          display: inline-block;
+          margin-top: 0.6em;
+        }
+        span.noResult {
+          margin: 0;
+        }
+        .icon {
+          position: absolute;
+          right: 8px;
+          top: 0;
+          font-size: 1.4em;
+        }
+      }
+    }
+  }
+}

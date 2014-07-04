@@ -54,6 +54,9 @@ $wideContainer: 864px !default;
 @mixin rounded_corners ($radius: 4px) {
   @include prefixr(border-radius, $radius);
 }
+@mixin ellipsis(){
+  text-overflow:ellipsis;white-space:nowrap;word-wrap:normal;
+}
 @mixin clearfix() {
   &:before,
   &:after {
@@ -116,14 +119,14 @@ button, .button {
   background: #fff;
   background: rgba(255,255,255,0.5);
   cursor: pointer;
-  color: $font_color !important;
+  color: $font_color;
   box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
   @include transition_all(all 0.25s ease);
   @include rounded_corners(4px);
   &:hover {
     border-color: $common_hover_border_color;
     background: $common_hover_back_color;
-    color: $common_hover_color !important;
+    color: $common_hover_color;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
   }
   &:active {
@@ -134,6 +137,9 @@ button.icon {
   border: 0;
   color: $common_border_color;
   font-size: 1.2em;
+  &:hover {
+    color: $common_hover_color;
+  }
 }
 button.big.button {
   font-size: 2em;
@@ -175,10 +181,17 @@ body {
 }
 
 .browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
+  margin: 0;
+  background: #e74c3c;
+  color: #fff;
+  text-align: center;
+  padding: 18px;
+  font-size: 1.2em;
+  z-index: 10;
+  a {
+    color: #fff;
+    font-weight: 800;
+  }
 }
 
 .wrapper {
@@ -350,19 +363,31 @@ body {
   bottom: 0;
   left: 0;
   width: 100%;
-  margin-bottom: 0.5em;
-  padding: 0.5em;
-  background: rgba(249,249,249,0.9);
+  margin-bottom: 12px;
   display: inline-block;
   text-align: left;
+  font-size: 0.8em;
   .links {
-    width: 100%;
     text-align: center;
     li {
+      background: rgba(249,249,249,0.9);
       display: inline-block;
-      padding-right: 1em;
+      padding: 6px 12px;
+      margin: 0;
+      &:first-child {
+        @include prefixr(border-top-left-radius, 4px);
+        @include prefixr(border-bottom-left-radius, 4px);
+      }
+      &:last-child {
+        @include prefixr(border-top-right-radius, 4px);
+        @include prefixr(border-bottom-right-radius, 4px);
+      }
     }
   }
+}
+
+section.page {
+  padding-bottom: 5em;
 }
 
 section.dashboard {
@@ -429,209 +454,9 @@ section.main {
   }
 }
 
-
-section.canvas {
-  padding: 12px;
-  .canvasTitle {
-    font-size: 2em;
-    color: $big_font_color;
-    margin: 12px 0;
-    background: transparent;
-  }
-  .canvas-wrapper {
-    border: 1px solid $common_border_color;
-  }
-  .area-wrapper {
-    border: 1px solid $common_border_color;
-    .area {
-      padding: 8px;
-      height: 240px;
-      overflow: auto;
-      @include transition_all();
-      input, p, .placeholder {
-        font-size: 0.9em;
-      }
-      p, .placeholder {
-        padding: 4px;
-        margin: 4px 0;
-      }
-
-      h4.title {
-        font-weight: bold;
-        margin-bottom: 4px;
-        padding: 4px;
-      }
-      .placeholder {
-        color: $placeholder_color;
-        font-style: italic;
-        font-family: $serif;
-      }
-      .item {
-        position: relative;
-        @include transition_all();
-        p {
-          cursor: pointer;
-          word-break: break-all;
-          @include transition_all();
-          &:hover {
-            background: #dfdfdf;
-          }
-        }
-        input {
-          display: none;
-          margin: 4px 0;
-        }
-        button {
-          display: none;
-        }
-        &:hover {
-          button {
-            position: absolute;
-            top: 0;
-            right: 0;
-            display: inline-block;
-          }
-        }
-      }
-      form {
-        input {
-          opacity: 0;
-          @include transition_all();
-          &:focus {
-            opacity: 1;
-          }
-        }
-      }
-      &:hover {
-        background: $background_hover_color;
-        form {
-          input {
-            opacity: 1;
-          }
-        }
-      }
-    }
-    ul {
-      list-style: none;
-      li {
-      }
-    }
-  }
-  .area-wrapper.blocked {
-    .area:first-child {
-      border-bottom: 1px solid $common_border_color;
-    }
-    .area:last-child {
-      border-top: 1px solid $common_border_color;
-    }
-  }
-}
-
-section.canvas-side-bar {
-  position: fixed;
-  top: 0;
-  right: 0;
-  height: 100%;
-  padding-top: 62px;
-  @include hover_panel();
-  .buttons {
-    position: absolute;
-    top: 62px;
-    right: 100%;
-    width: 120px;
-    text-align: right;
-    button {
-      padding: 4px 12px;
-      background: #fff;
-      border-right: 1px solid #fff;
-      box-shadow: -2px 0 4px rgba(0,0,0,0.3);
-      @include prefixr(border-top-right-radius, 0);
-      @include prefixr(border-bottom-right-radius, 0);
-      &:hover {
-        border: 1px solid $common_hover_border_color;
-        background: $common_hover_back_color;
-        color: $common_hover_color;
-      }
-    }
-  }
-  .wrapper {
-    width: 240px;
-    padding: 12px;
-    button {
-      display: block;
-      margin-top: 4px;
-      width: 100%;
-    }
-    input {
-      margin-top: 4px;
-    }
-    h4 {
-      border-top: 2px solid $common_border_color;
-      margin-bottom: 12px;
-      padding-top: 4px;
-    }
-    .author {
-      margin-bottom: 32px;
-      ul {
-        @include clearfix();
-        li {
-          &:last-child {
-            .picture {
-              margin-left: 0;
-            }
-          }
-          float: left;
-          .picture {
-            margin-right: 12px;
-            img {
-              width: 40px;
-              height: 40px;
-              vertical-align: top;
-              @include rounded_corners();
-            }
-          }
-          .name {
-            display: none;
-          }
-        }
-      }
-    }
-    .search-result {
-      .user {
-        margin-top: 8px;
-        cursor: pointer;
-        padding: 4px;
-        position: relative;
-        @include transition_all();
-        &:hover {
-          background: $common_hover_back_color;
-          color: $common_hover_color;
-          @include rounded_corners();
-        }
-        img {
-          width: 40px;
-          height: 40px;
-          @include rounded_corners();
-        }
-        span {
-          vertical-align: top;
-          display: inline-block;
-          margin-top: 0.6em;
-        }
-        span.noResult {
-          margin: 0;
-        }
-        .icon {
-          position: absolute;
-          right: 8px;
-          top: 0;
-          font-size: 1.4em;
-        }
-      }
-    }
-  }
-}
-
+@import '_components/_icon';
+@import "_components/_canvas";
+@import '_components/_notFound';
 /*!
 Pure v0.5.0
 Copyright 2014 Yahoo! Inc. All rights reserved.
@@ -685,4 +510,3 @@ https://github.com/yui/pure/blob/master/LICENSE.md
   height: 30px;
 }
 
-@import 'icon';

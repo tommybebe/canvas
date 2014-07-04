@@ -6,14 +6,17 @@
 	<div class="author">
     <h4>Author</h4>
     <ul>
-      <li ng-repeat="(id, author) in canvas.author">
-        <div class="picture">
+      <li ng-repeat="(id, author) in canvas.author" ng-init="userPanelToggle={}" ng-init="userPanelToggle[id]=false">
+        <div class="picture" ng-click="userPanelToggle[id]=!userPanelToggle[id]">
           <img src="{{author.picture}}" alt="user picture" title="{{author.name}}"/>
-          <button class="icon" ng-click="delAuthor(author)" ng-show="canvas.author[user.uid]&&id!==user.uid">
-            <span class="icon-minus-circle"></span>
-          </button>
         </div>
-        <div class="name" ng-click="adjust(id)">{{author.name}}</div>
+        <div class="aboutUser" ng-show="userPanelToggle[id]">
+          <img src="{{author.picture}}" ng-click="userPanelToggle[id]=!userPanelToggle[id]" alt="user picture" title="{{author.name}}"/>
+          <span class="name" ng-click="userPanelToggle[id]=!userPanelToggle[id]">{{author.name}}</span>
+          <span class="email" ng-click="userPanelToggle[id]=!userPanelToggle[id]">{{author.email}}</span>
+          <button class="remove" ng-click="delAuthor(author)" ng-show="canvas.author[user.uid]&&user.uid!==id">Remove from Canvas</button>
+          <button class="close" ng-click="userPanelToggle[id]=!userPanelToggle[id]"><span class="icon-times"></span></button>
+        </div>
       </li>
     </ul>
     <div class="authorManage" ng-show="canvas.author[user.uid]">

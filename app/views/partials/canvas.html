@@ -1,7 +1,7 @@
 <div ng-include="'partials/navbar'"></div>
-<div class="notFound" ng-hide="canvas.createAt" notFound></div>
-<section class="canvas" ng-show="canvas.createAt">
-  <div class="wrapper">
+<section class="notFound page" ng-show="!canvas.createAt && loaded" ng-clock not-found></section>
+<section class="canvas page">
+  <div class="wrapper" ng-show="canvas.createAt">
     <input class="canvasTitle" type="text" ng-model="canvas.title" ng-blur="save('title', canvas.title)" ng-show="canvas.author[user.uid]" placeholder="Type some texts."/>
     <h1 class="canvasTitle" ng-hide="canvas.author[user.uid]">{{canvas.title}}</h1>
     <div class="canvas-wrapper">
@@ -87,6 +87,6 @@
       </div>
     </div>
   </div>
+  <section class="canvas-side-bar" canvas-side-bar></section>
 </section>
-
-<section class="canvas-side-bar" canvas-side-bar></section>
+<div ng-include="'partials/footer'"></div>
