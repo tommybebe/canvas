@@ -1,3 +1,5 @@
 'use strict';
 angular.module('canvasApp')
-  .controller('DashboardCtrl', function (){ });
+  .controller('DashboardCtrl', ['$scope', 'canvasHandler', function ($scope, canvasHandler){
+    $scope.create = canvasHandler.create;
+  }]);
