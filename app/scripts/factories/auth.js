@@ -112,7 +112,8 @@ angular.module('canvasApp')
       return q.promise;
     };
     function escapeEmail(email){
-      return (email || '').replace('.', ',');
+      if(!email){ return; }
+      return (email || '').replace(/\./g, ',');
     }
     // function unescapeEmail(email){
     //   return (email || '').replace(',', '.');

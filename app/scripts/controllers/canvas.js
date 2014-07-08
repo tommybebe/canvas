@@ -1,9 +1,11 @@
 'use strict';
+function escapeEmail(email){
+  if(!email){ return; }
+  return (email || '').replace(/\./g, ',');
+}
+
 angular.module('canvasApp')
   .directive('canvasSideBar', ['db', 'auth', 'TEMPLATE', function(db, auth, TEMPLATE){
-    function escapeEmail(email){
-      return (email || '').replace('.', ',');
-    }
 
     return {
       scope: true,
@@ -45,7 +47,7 @@ angular.module('canvasApp')
           $scope.canvas.$child('author')
             .$remove(targetUser.uid)
             .then(function(){
-              auth.message.send('has removed your authority', $scope.canvas, targetUser.email.replace('.', ','));
+              auth.message.send('has removed your authority', $scope.canvas, escapeEmail(targetUser.email));
             });
         };
       }
@@ -147,7 +149,7 @@ angular.module('canvasApp')
           if(author === user.uid){
             return user.$child('canvas').$remove(canvas.$id);
           } else {
-            return auth.message.send('deleted', canvas, authors[author].email.replace('.', ','));
+            return auth.message.send('deleted', canvas, escapeEmail(authors[author].email));
           }
         });
       return $q.all(promises);
@@ -160,9 +162,9 @@ angular.module('canvasApp')
     this.create = function(){
       auth.getCurrentUser()
         .then(function(user){
-          var newTitle = new Date(),
+          var now = new Date(),
             canvas = {
-              title: newTitle,
+              title: 'Untitle Canvas '+now,
               createAt: new Date(),
               author: {}
             };
@@ -175,7 +177,7 @@ angular.module('canvasApp')
           _db.$add(canvas).then(function(ref){
             var addedCanvasId = ref.name();
             user.$child('canvas').$child(addedCanvasId).$update({
-              title: newTitle
+              title: now
             }).then(function(){
               $location.url('/canvas/'+addedCanvasId);
             });
@@ -207,7 +209,7 @@ angular.module('canvasApp')
           })
           .then(function(){
             angular.forEach(canvas.author, function(user){
-              auth.message.send('updated', canvas, user.email.replace('.', ','));
+              auth.message.send('updated', canvas, escapeEmail(user.email));
             });
           });
       }
