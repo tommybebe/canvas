@@ -8,6 +8,9 @@ section.canvas {
   .canvas-wrapper {
     border: 1px solid $common_border_color;
   }
+  .pure-u-1-5 {
+    display: table-cell;
+  }
   .area-wrapper {
     border: 1px solid $common_border_color;
     .area {
