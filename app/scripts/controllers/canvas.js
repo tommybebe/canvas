@@ -3,6 +3,13 @@ function escapeEmail(email){
   if(!email){ return; }
   return (email || '').replace(/\./g, ',');
 }
+function getNow(){
+  try {
+    return new Date().toISOString().slice(0, 10);
+  } catch(e){
+    return new Date();
+  }
+}
 
 angular.module('canvasApp')
   .directive('canvasSideBar', ['db', 'auth', 'TEMPLATE', function(db, auth, TEMPLATE){
@@ -39,7 +46,10 @@ angular.module('canvasApp')
               $scope.searchResult = '';
               $scope.newAuthor = '';
               // invite message to user
-              auth.message.send('invited', $scope.canvas, invitedUser);
+              return auth.message.send('invited', $scope.canvas, invitedUser);
+            })
+            .then(function(){
+              ga('send', 'event', 'Canvas', 'Author Invited');
             });
         };
         $scope.delAuthor = function(targetUser){
@@ -47,7 +57,10 @@ angular.module('canvasApp')
           $scope.canvas.$child('author')
             .$remove(targetUser.uid)
             .then(function(){
-              auth.message.send('has removed your authority', $scope.canvas, escapeEmail(targetUser.email));
+              return auth.message.send('has removed your authority', $scope.canvas, escapeEmail(targetUser.email));
+            })
+            .then(function(){
+              ga('send', 'event', 'Canvas', 'Author Removed');
             });
         };
       }
@@ -91,18 +104,24 @@ angular.module('canvasApp')
           $scope.items.$child(id)
             .$update({
               content: input,
-              updatedAt: new Date()
+              updatedAt: getNow()
+            })
+            .then(function(){
+              ga('send', 'event', 'Canvas', 'Item updated');
             });
           // $scope.items.$save(id);
         };
         $scope.add = function(area){
           var item = _.assign(angular.copy($scope.newItem), {
             area: area,
-            createAt: new Date()
+            createAt: getNow()
           });
           if(!item || !item.content || item.content === ''){ return; }
           item.$priority = $scope.items.$getIndex().length;
-          $scope.items.$add(item);
+          $scope.items.$add(item)
+            .then(function(){
+              ga('send', 'event', 'Canvas', 'Item Added');
+            });
           $scope.newItem = {};
         };
         $scope.del = function(id){
@@ -162,10 +181,10 @@ angular.module('canvasApp')
     this.create = function(){
       auth.getCurrentUser()
         .then(function(user){
-          var now = new Date(),
+          var now = getNow(),
             canvas = {
-              title: 'Untitle Canvas '+now,
-              createAt: new Date(),
+              title: 'Untitled Canvas / '+now,
+              createAt: getNow(),
               author: {}
             };
           canvas.author[user.uid] = {
@@ -174,7 +193,7 @@ angular.module('canvasApp')
             picture: user.picture,
             email: user.email
           };
-          _db.$add(canvas).then(function(ref){
+          return _db.$add(canvas).then(function(ref){
             var addedCanvasId = ref.name();
             user.$child('canvas').$child(addedCanvasId).$update({
               title: now
@@ -182,6 +201,9 @@ angular.module('canvasApp')
               $location.url('/canvas/'+addedCanvasId);
             });
           });
+        }).
+        then(function(){
+          ga('send', 'event', 'Canvas', 'Created');
         });
     };
     this.del = function(){

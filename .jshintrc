@@ -24,6 +24,8 @@
     "Firebase": false,
     "FirebaseSimpleLogin": false,
     "_": false,
-    "cxApi": false
+    "cxApi": false,
+    "ga": false,
+    "_gaq": false
   }
 }

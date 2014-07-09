@@ -21,12 +21,19 @@ angular.module('canvasApp', [
       })
       .when('/canvas/:id', {
         templateUrl: 'partials/canvas',
-        controller: 'CanvasCtrl'
+        controller: 'CanvasCtrl',
+        resolve: function(){
+          console.log(arguments);
+        }
       })
       .otherwise({
         redirectTo: '/'
       });
       
     $locationProvider.html5Mode(true);
+  })
+  .run(function($rootScope, $location){
+    $rootScope.$on('$routeChangeSuccess', function(){
+      ga('send', 'pageview', $location.path());
+    });
   });
-
