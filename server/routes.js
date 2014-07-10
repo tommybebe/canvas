@@ -1,18 +1,14 @@
 'use strict';
 
-var api = require('./controllers/api'),
-    index = require('./controllers');
+var index = require('./controllers');
 
 /**
  * Application routes
  */
 module.exports = function(app) {
-
-  // Server API Routes
-  app.route('/api/awesomeThings')
-    .get(api.awesomeThings);
-  
+ 
   // All undefined api routes should return a 404
+  // And we don't have any
   app.route('/api/*')
     .get(function(req, res) {
       res.send(404);

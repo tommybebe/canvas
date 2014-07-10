@@ -6,8 +6,6 @@ var express = require('express'),
     compression = require('compression'),
     bodyParser = require('body-parser'),
     methodOverride = require('method-override'),
-    cookieParser = require('cookie-parser'),
-    session = require('express-session'),
     errorHandler = require('errorhandler'),
     path = require('path'),
     config = require('./config');
@@ -19,8 +17,6 @@ module.exports = function(app) {
   var env = app.get('env');
 
   if ('development' === env) {
-    app.use(require('connect-livereload')());
-
     // Disable caching of scripts for easier testing
     app.use(function noCache(req, res, next) {
       if (req.url.indexOf('/scripts/') === 0) {
@@ -31,16 +27,16 @@ module.exports = function(app) {
       next();
     });
 
-    app.use(express.static(path.join(config.root, '.tmp')));
     app.use(express.static(path.join(config.root, 'app')));
-    app.set('views', config.root + '/app/views');
+    app.use(express.static(path.join(config.root, '.tmp')));
+    app.set('views', config.root + '/app');
   }
 
   if ('production' === env) {
     app.use(compression());
     app.use(favicon(path.join(config.root, 'public', 'favicon.ico')));
     app.use(express.static(path.join(config.root, 'public')));
-    app.set('views', config.root + '/views');
+    app.set('views', config.root + '/public');
   }
 
   app.engine('html', require('ejs').renderFile);

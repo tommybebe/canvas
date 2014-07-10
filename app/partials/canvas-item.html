@@ -1,0 +1,15 @@
+<ul class="content" ui-sortable ng-model="items">
+  <li class="item" ng-repeat="item in items | orderByPriority" ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}" data-priority="{{item.$priority}}">
+  	<form ng-submit="save(item.$id, $event)" ng-show="canvas.author[user.uid]">
+	    <p ng-click="toggle(this, $event)">{{item.content}}</p>
+	    <input type="text" ng-model="item.content" ng-blur="save(item.$id, $event)" placeholder="Type some texts."/>
+    	<button class="icon" ng-click="del(item.$id)"><span class="icon-trash-o"></span></button>
+	  </form>
+    <p ng-hide="canvas.author[user.uid]">{{item.content}}</p>
+  </li>
+</ul>
+<div class="placeholder" ng-hide="items.$getIndex().length || !canvas.author[user.uid]">{{placeholder}}</div>
+<form novalidate ng-submit="add(itemArea)" ng-show="canvas.author[user.uid]">
+  <input type="text" ng-model="newItem.content" placeholder="Add Content"/>
+  <button type="submit" ng-show="newItem.content">Add</button>
+</form>

@@ -7,6 +7,9 @@ section.canvas {
   }
   .canvas-wrapper {
     border: 1px solid $common_border_color;
+    &.bold-border {
+      border: 8px solid $common_border_color;
+    }
   }
   .area-wrapper {
     border: 1px solid $common_border_color;
@@ -64,6 +67,9 @@ section.canvas {
         input {
           opacity: 0;
           @include transition_all;
+          &.faint {
+            opacity: 0.3;
+          }
           &:focus {
             opacity: 1;
           }

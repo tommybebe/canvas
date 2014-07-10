@@ -12,19 +12,16 @@ angular.module('canvasApp', [
   .config(function ($routeProvider, $locationProvider) {
     $routeProvider
       .when('/', {
-        templateUrl: 'partials/main',
+        templateUrl: 'partials/main.html',
         controller: 'MainCtrl'
       })
       .when('/dashboard', {
-        templateUrl: 'partials/dashboard',
+        templateUrl: 'partials/dashboard.html',
         controller: 'DashboardCtrl'
       })
       .when('/canvas/:id', {
-        templateUrl: 'partials/canvas',
-        controller: 'CanvasCtrl',
-        resolve: function(){
-          console.log(arguments);
-        }
+        templateUrl: 'partials/canvas.html',
+        controller: 'CanvasCtrl'
       })
       .otherwise({
         redirectTo: '/'
@@ -32,7 +29,8 @@ angular.module('canvasApp', [
       
     $locationProvider.html5Mode(true);
   })
-  .run(function($rootScope, $location){
+  .run(function($rootScope, $location, $templateCache, $experiment){
+    $experiment($location.path(), $templateCache);
     $rootScope.$on('$routeChangeSuccess', function(){
       ga('send', 'pageview', $location.path());
     });

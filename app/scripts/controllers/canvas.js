@@ -12,12 +12,12 @@ function getNow(){
 }
 
 angular.module('canvasApp')
-  .directive('canvasSideBar', ['db', 'auth', 'TEMPLATE', function(db, auth, TEMPLATE){
+  .directive('canvasSideBar', ['db', 'auth', function(db, auth){
 
     return {
       scope: true,
       restrict: 'A',
-      templateUrl: TEMPLATE.canvasSideBar,
+      templateUrl: 'partials/canvas-side-bar.html',
       link: function($scope){
         var _db = db.initialize('users');
         $scope.search = function(){
@@ -68,11 +68,11 @@ angular.module('canvasApp')
   }]);
 
 angular.module('canvasApp')
-  .directive('canvasItems', ['TEMPLATE', function(TEMPLATE){
+  .directive('canvasItems', [function(){
     return {
       scope: true,
       restrict: 'E',
-      templateUrl: TEMPLATE.canvasItem,
+      templateUrl: 'partials/canvas-item.html',
       link: function($scope, $element, $attr){
         $scope.itemArea = $attr.area;
         $scope.placeholder = $attr.placeholder;

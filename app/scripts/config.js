@@ -1,24 +1,21 @@
 'use strict';
-// experiment = cxApi.getChosenVariation('-------'),
+// variation file naming rule example.html, example.2.html, example.3.html...
 var experiments = [
-  //{ id: 'key', name: 'test1', variation: [{canvasSideBar:'canvasSideBar-trial1.html'}, {canvasSideBar:'canvasSideBar-trial2.html'}] }
-],
-templates = {
-  canvasSideBar: 'partials/canvas-side-bar.html',
-  canvasItem: 'partials/canvas-item.html',
-  notFound: 'partials/notFound/404.html'
-};
+  {'canvas-item.html': 1},
+  {'canvas-item.html': 0}
+];
 
-angular.forEach(experiments, function(experiment){
-  var variationNumber = cxApi.getChosenVariation(experiment.id),
-    variation = experiment.variation[variationNumber];
-  angular.forEach(Object.keys(variation), function(template){
-    templates[template] = variation[template];
-  });
-});
-
-angular.module('config', [])
-	.constant('TEST', 'Hello world!')
+angular.module('config', ['ng'])
+  .constant('TEST', 'Hello world!')
   .constant('FIREBASE_URI', 'https://burning-fire-8122.firebaseio.com')
-  .constant('TEMPLATE', templates)
-;
+  .constant('EXPERIMENTS', experiments)
+  .factory('$experiment', [function(){
+    return function(path, cache){
+      var variation = cxApi.chooseVariation();
+
+      angular.forEach(experiments[variation], function(number, html){
+        var picked = html.replace('.html', '.'+number+'.html');
+        cache.put('partials/'+html, cache.get('partials/'+picked));
+      });
+    };
+  }]);

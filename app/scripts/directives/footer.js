@@ -1,9 +1,9 @@
 'use strict';
 angular.module('canvasApp')
-  .directive('notFound', [function(){
+  .directive('footer', [function(){
     return {
       restrict: 'A',
-      templateUrl: 'partials/notFound/404.html',
+      templateUrl: 'partials/footer.html',
       link: function(){
       }
     };

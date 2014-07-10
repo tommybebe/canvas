@@ -1,0 +1,60 @@
+<div class="buttons">
+  <button class="sidebar-show" ng-click="toggle=!toggle" ng-init="toggle=false" ng-hide="toggle">Show sidebar</button>
+  <button class="sidebar-hide" ng-click="toggle=!toggle" ng-show="toggle">▶</button>
+</div>
+<div class="wrapper" ng-show="toggle">
+	<div class="author">
+    <h4>Author</h4>
+    <ul>
+      <li ng-repeat="(id, author) in canvas.author" ng-init="userPanelToggle={}" ng-init="userPanelToggle[id]=false">
+        <div class="picture" ng-click="userPanelToggle[id]=!userPanelToggle[id]">
+          <img src="{{author.picture}}" alt="user picture" title="{{author.name}}"/>
+        </div>
+        <div class="aboutUser" ng-show="userPanelToggle[id]">
+          <img src="{{author.picture}}" ng-click="userPanelToggle[id]=!userPanelToggle[id]" alt="user picture" title="{{author.name}}"/>
+          <span class="name" ng-click="userPanelToggle[id]=!userPanelToggle[id]">{{author.name}}</span>
+          <span class="email" ng-click="userPanelToggle[id]=!userPanelToggle[id]">{{author.email}}</span>
+          <button class="remove" ng-click="delAuthor(author)" ng-show="canvas.author[user.uid]&&user.uid!==id">Remove from Canvas</button>
+          <button class="close" ng-click="userPanelToggle[id]=!userPanelToggle[id]"><span class="icon-times"></span></button>
+        </div>
+      </li>
+    </ul>
+    <div class="authorManage" ng-show="canvas.author[user.uid]">
+      <button ng-init="_toggle=true" ng-show="_toggle" ng-click="_toggle=!_toggle">Add Author</button>
+      <form name="addAuthorForm" ng-submit="search()">
+        <input type="email" ng-hide="_toggle" ng-blur="_toggle=!_toggle" ng-model="newAuthor" placeholder="Type friend's email address" required/>
+      </form>
+      <div class="search-result" ng-show="searchResult">
+        <div class="user" ng-click="addAuthor(searchResult, user)">
+          <img src="{{searchResult.picture}}" ng-show="searchResult.picture">
+          <span ng-show="searchResult.name">{{searchResult.name}}</span>
+          <span class="noResult" ng-show="searchResult.noResult">No result with {{newAuthor}}</span>
+          <div class="icon" ng-show="searchResult.picture"><span class="icon-plus-circle"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="manage" ng-show="canvas.author[user.uid]">
+    <h4>Manage</h4>
+    <ul>
+      <!-- <li><button ng-click="">Clone this canvas</button></li> -->
+      <li><button ng-click="del(user)">Delete this canvas</button></li>
+    </ul>
+  </div>
+
+  <div class="activity" ng-show="false" ng-clock ng-show="canvas.author[user.uid]">
+    <h4>Activity</h4>
+    <ul>
+      <li ng-repeat="(id, activity) in canvas.activity">
+        <div class="content">
+          <span>{{activity.user.name}}</span>
+          <span>{{activity.action}}</span>
+          <span>{{activity.area}}</span>
+          <span>{{activity.content}}</span>
+          <span>{{activity.date}}</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
