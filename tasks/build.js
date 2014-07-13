@@ -22,7 +22,7 @@ var AUTOPREFIXER_BROWSERS = [
 ];
 
 gulp.task('templateCache', function () {
-  gulp.src('app/partials/**/*.html')
+  return gulp.src('app/partials/**/*.html')
     .pipe(templateCache({module: 'config', root: 'partials'}))
     .pipe(gulp.dest('app/scripts'));
 });
@@ -34,6 +34,12 @@ gulp.task('jshint', function () {
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
+});
+gulp.task('jsReload', ['templateCache'], function () {
+  reload({stream: true, once: true});
+  // return gulp.src('app/scripts/templates.js')
+  //   .pipe(reload({stream: true, once: true}))
+  //   .pipe($.if(!browserSync.active));
 });
 
 // Optimize Images

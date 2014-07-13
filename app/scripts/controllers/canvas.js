@@ -142,7 +142,7 @@ angular.module('canvasApp')
   }]);
 
 angular.module('canvasApp')
-  .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', 'db', 'canvasHandler', function ($scope, $routeParams, $location, db, canvasHandler) {
+  .controller('CanvasCtrl', ['$scope', '$routeParams', '$location', '$route', 'db', 'canvasHandler', function ($scope, $routeParams, $location, $route, db, canvasHandler) {
     //
     var canvas = canvasHandler.initialize($routeParams.id);
     //
@@ -152,8 +152,8 @@ angular.module('canvasApp')
     $scope.del = canvas.del;
     $scope.area = $scope.canvas.$child('area');
     $scope.loaded = false;
-
     $scope.canvas.$on('loaded', function(){
+      canvasHandler.updatePath();
       $scope.loaded = true;
     });
   }]);
@@ -172,8 +172,15 @@ angular.module('canvasApp')
           }
         });
       return $q.all(promises);
+    },
+    _updatePath = function(){
+      var path = $location.path().split('/'),
+        newPath = path[0]+'/'+path[1]+'/'+path[2]+'/'+canvas.title.replace(/[~!#$^&*=+|:;?"<,.>'%\s]/g, '-');
+      if($location.path()===newPath){ return; }
+      $location.path(newPath, false);
     };
 
+    this.updatePath = _updatePath;
     this.initialize = function(id){
       canvas = _db.$child(id);
       return this;
@@ -222,6 +229,7 @@ angular.module('canvasApp')
       if(legacy === canvas.title){
         return;
       }
+      _updatePath();
       canvas.$child(attr).$set(val);
       // update users data, with only title attr
       if(attr==='title'){

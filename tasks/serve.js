@@ -15,11 +15,13 @@ gulp.task('serve', ['wiredep', 'server'], function () {
     // }
   });
 
-  gulp.watch(['app/**/*.html'], ['templateCache', reload]);
+  gulp.watch(['app/index.html'], reload);
+  gulp.watch(['app/partials/**/*.html'], ['templateCache']);
   // gulp.watch(['app/styles/**/*.scss'], ['styles:components', 'styles:scss']);
   gulp.watch(['app/styles/**/*.scss'], ['styles:scss']);
   gulp.watch(['{.tmp,app}/styles/**/*.css'], ['styles:css']);
   gulp.watch(['app/scripts/**/*.js'], ['jshint']);
+  gulp.watch(['app/scripts/templates.js'], ['jsReload']);
   gulp.watch(['app/images/**/*'], reload);
 });
 
