@@ -174,10 +174,14 @@ angular.module('canvasApp')
       return $q.all(promises);
     },
     _updatePath = function(){
-      var path = $location.path().split('/'),
-        newPath = path[0]+'/'+path[1]+'/'+path[2]+'/'+canvas.title.replace(/[~!#$^&*=+|:;?"<,.>'%\s]/g, '-');
-      if($location.path()===newPath){ return; }
-      $location.path(newPath, false);
+      var newPath, path, title;
+      path = _.without($location.path().split('/'), '');
+      title = canvas.title.replace(/<[^>]*>/g, '');
+      newPath = path[0] + '/' + path[1] + '/' + title.replace(/[~!#$^&*=+|:;?"<,.>'%\s]/g, '-');
+      if ($location.path() === newPath) {
+        return;
+      }
+      return $location.path(newPath).replace();
     };
 
     this.updatePath = _updatePath;
@@ -190,7 +194,7 @@ angular.module('canvasApp')
         .then(function(user){
           var now = getNow(),
             canvas = {
-              title: 'Untitled Canvas / '+now,
+              title: 'Untitled Canvas - '+now,
               createAt: getNow(),
               author: {}
             };
