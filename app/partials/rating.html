@@ -1,0 +1,9 @@
+<div class="wrapper">
+  <img class="user-image" src="{{user.picture}}" alt="{{user.name}}">
+  <ul class="stars">
+    <li ng-repeat="item in [0,1,2,3,4]">
+      <span class="icon-asterisk" ng-click="rate(item)"></span>
+    </li>
+  </ul>
+
+</div>

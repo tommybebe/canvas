@@ -454,6 +454,23 @@ section.main {
   }
 }
 
+section.rating {
+  img.user-image {
+    width: 40px;
+    display: inline-block:
+    vertical-align: center;
+    @include rounded_corners;
+  }
+  ul.stars {
+    display: inline-block;
+    font-size: 1.7em;
+    vertical-align: center;
+    li {
+      display: inline-block;
+    }
+  }
+}
+
 @import '_components/_icon';
 @import "_components/_canvas";
 @import '_components/_notFound';
