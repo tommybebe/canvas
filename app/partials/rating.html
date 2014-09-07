@@ -1,9 +1,25 @@
 <div class="wrapper">
-  <img class="user-image" src="{{user.picture}}" alt="{{user.name}}">
-  <ul class="stars">
-    <li ng-repeat="item in [0,1,2,3,4]">
-      <span class="icon-asterisk" ng-click="rate(item)"></span>
-    </li>
-  </ul>
-
+  <h3>Your Rating</h3>
+  <div class="input" ng-if="$root.user">
+    <stars ng-class="{rated:rating[$root.user.id]}" ng-model="rating[$root.user.id].stars" rate="setStars(index, $root.user)"></stars>
+    <form ng-submit="comment($root.user, $event)">
+      <input name="comment" type="text" ng-model="rating[$root.user.id].comment" placeholder="{{placeholder}}">
+      <input class="button" type="submit" value="{{submitButtonText}}">
+    </form>
+  </div>
+  <div class="unAuth" ng-if="!$root.user">
+    <stars disabled ng-click="auth.login('facebook', { scope: 'email' })"></stars>
+  </div>
+  <div ng-if="rating.$getIndex().length!=0 && !(rating.$getIndex().length===1 && rating.$getIndex()[0]===$root.user.id)">
+    <h3>Other Ratings</h3>
+    <ul class="list">
+      <li class="item" ng-repeat="(id, item) in rating" ng-if="id != $root.user.id">
+        <div class="user">
+          <img class="user-image" src="{{item.user.picture}}" alt="{{item.user.name}}" title="{{item.user.name}}">
+        </div>
+        <stars class="rated" ng-model="item.stars" disabled></stars>
+        <p class="comment">{{item.comment}}</p>
+      </li>
+    </ul>
+  </div>
 </div>

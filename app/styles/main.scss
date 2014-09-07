@@ -455,18 +455,88 @@ section.main {
 }
 
 section.rating {
-  img.user-image {
-    width: 40px;
-    display: inline-block:
-    vertical-align: center;
-    @include rounded_corners;
-  }
-  ul.stars {
+  margin-top: 2em;
+  h3 {
     display: inline-block;
-    font-size: 1.7em;
-    vertical-align: center;
-    li {
+    margin-bottom: 16px;
+    margin-top: 1.5em;
+  }
+  .input, .unAuth {
+    margin-bottom: 2em;
+    img.user-image {
+      width: 40px;
+      margin-right: 8px;
       display: inline-block;
+      vertical-align: middle;
+      @include rounded_corners;
+    }
+    .stars {
+      span {
+        font-size: 1.7em;
+      }
+    }
+  }
+  form, p {
+    width: 440px;
+    margin-left: 12px;
+    display: inline-block;
+    position: relative;
+    .button {
+      position: absolute;
+      top: 0;
+      left: 100%;
+      margin-left: 12px;
+      width: 72px;
+    }
+  }
+  .user {
+    display: inline-block;
+    img.user-image {
+      width: 28px;
+      display: inline-block;
+      vertical-align: middle;
+      @include rounded_corners;
+    }
+  }
+  .stars {
+    ul {
+      display: inline-block;
+      vertical-align: middle;
+      padding-top: 2px;
+      li {
+        display: inline-block;
+        margin: 1px;
+        span {
+          font-size: 1.3em;
+          cursor: pointer;
+          color: #aaa;
+        }
+      }
+    }
+    &.disabled {
+      ul {
+        li {
+          span {
+            cursor: auto;
+          }
+        }
+      }
+    }
+  }
+  ul.list {
+    li.item {
+      display: block;
+      border-bottom: 1px solid #ddd;
+      padding: 16px 0;
+    }
+  }
+  .rated {
+    ul {
+      li {
+        span {
+          color: #f39c12;
+        }
+      }
     }
   }
 }

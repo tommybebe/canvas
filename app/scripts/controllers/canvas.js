@@ -151,6 +151,7 @@ angular.module('canvasApp')
     $scope.save = canvas.save;
     $scope.del = canvas.del;
     $scope.area = $scope.canvas.$child('area');
+    $scope.rating = $scope.canvas.$child('rating');
     $scope.loaded = false;
     $scope.canvas.$on('loaded', function(){
       canvasHandler.updatePath();

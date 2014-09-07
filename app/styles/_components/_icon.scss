@@ -29,6 +29,12 @@
 .icon-envelope-o:before {
 	content: "\f003";
 }
+.icon-star:before {
+	content: "\f005";
+}
+.icon-star-o:before {
+	content: "\f006";
+}
 .icon-check:before {
 	content: "\f00c";
 }
@@ -86,12 +92,6 @@
 .icon-facebook-square:before {
 	content: "\f082";
 }
-.icon-thumbs-o-up:before {
-	content: "\f087";
-}
-.icon-navicon:before {
-	content: "\f0c9";
-}
 .icon-linkedin:before {
 	content: "\f0e1";
 }
@@ -106,4 +106,7 @@
 }
 .icon-file-pdf-o:before {
 	content: "\f1c1";
+}
+.icon-git-square:before {
+	content: "\f1d2";
 }
