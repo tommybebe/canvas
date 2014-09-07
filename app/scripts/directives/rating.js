@@ -9,7 +9,7 @@ angular.module('canvasApp')
         user: '='
       },
       templateUrl: 'partials/rating.html',
-      link: function($scope, $element){
+      link: function($scope){
         var placeholders = [
           'ex) Don\'t do it.',
           'ex) What a bad idea.',
@@ -65,7 +65,7 @@ angular.module('canvasApp')
         model: '=ngModel'
       },
       templateUrl: 'partials/stars.html',
-      link: function($scope, $element, $attr, ctrl){
+      link: function($scope, $element, $attr){
         $element.addClass('stars');
         $scope.$watch('model', function(){
           $scope.paint($scope.model);
@@ -79,7 +79,7 @@ angular.module('canvasApp')
         $scope.reset = function(){
           $scope.paint($scope.model);
         };
-        if($attr.disabled != ''){
+        if($attr.disabled !== ''){
           $scope.hover = $scope.paint;
           $scope.carve = function(index){
             $element.addClass('rated');
