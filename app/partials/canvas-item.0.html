@@ -3,8 +3,8 @@
   	<form ng-submit="save(item.$id, $event)" ng-show="canvas.author[user.uid]">
 	    <p ng-click="toggle(this, $event)">{{item.content}}</p>
 	    <input type="text" ng-model="item.content" ng-blur="save(item.$id, $event)" placeholder="Type some texts."/>
-    	<button class="icon" ng-click="del(item.$id)"><span class="icon-trash-o"></span></button>
-	  </form>
+    </form>
+  	<button class="icon" ng-click="del(item.$id)"><span class="icon-trash-o"></span></button>
     <p ng-hide="canvas.author[user.uid]">{{item.content}}</p>
   </li>
 </ul>
